@@ -20,8 +20,8 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        
-    <!-- <script src="{{ asset('assets/popperjs-1.16.1/popperjs.min.js') }}"></script> -->
+    <script src="{{ asset('js/app.js') }}"></script>    
+    <script src="{{ asset('assets/popperjs-1.16.1/popperjs.min.js') }}"></script>
     <script src="{{ asset('assets/bootstrap-4.5.2/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    
   </body>

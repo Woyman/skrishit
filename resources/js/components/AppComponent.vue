@@ -1,15 +1,14 @@
 <template>
 	<div>
         <navbar></navbar>
-        <h1>Ini adalah komponen vue js </h1>
-		<!-- <component :is="layout">
-			<router-view></router-view>
-		</component> -->
+        <div class="container-fluid">  
+            <router-view></router-view>        
+        </div>        	
 	</div>
 </template>
 
 <script>
-import Navbar from './layouts/NavbarComponent'
+import Navbar from './admin/layouts/NavbarComponent'
 
 export default {
     components: {
