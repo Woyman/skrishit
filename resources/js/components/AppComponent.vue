@@ -1,6 +1,7 @@
 <template>
 	<div>		
-		<div id="wrapper" class="wrapper" >    
+		<div id="wrapper" class="wrapper" >
+			<navbar></navbar>   
     		<div class="content-wrapper">  
 				<router-view></router-view>
     		</div>
@@ -9,11 +10,12 @@
 </template>
 
 <script>
-// import {mapGetters} from 'vuex';
-// import {createHelpers} from 'vuex-map-fields'
+import Navbar from './layout/NavbarComponent'
 
 export default {
-
+components:{                
+        'navbar' : Navbar,       
+    }, 
 created(){
 	this.init();
 },

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Dashboard</title>
+        <title>Dashboard Admin</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -12,6 +12,7 @@
         
         
         <!-- Styles -->        
+        <link rel="stylesheet" href="{{ asset('css/myskripsi.css') }}" type="text/css" >
         <link rel="stylesheet" href="{{ asset('assets/bootstrap-4.1.3/css/bootstrap.min.css') }}" type="text/css" >
     </head>
     <body>
