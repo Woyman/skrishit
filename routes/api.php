@@ -19,4 +19,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::get('/', 'Api\RoleController@index'); 
+Route::get('/role', 'Api\RoleController@index'); 
+Route::post('/role', 'Api\RoleController@insert'); 

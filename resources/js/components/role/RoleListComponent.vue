@@ -16,30 +16,16 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Role Name</th>
+                                    <th scope="col">Action</th>                                    
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
+                                <tr v-for="(role, index) in roles" :key="index" >
+                                    <th scope="row">{{ index+1 }}</th>
+                                    <td>{{ role.role_name }}</td>                                    
+                                    <td>Edit | Delete</td>
+                                </tr>                                
                             </tbody>
                         </table>
                     </div>
@@ -58,7 +44,11 @@
                 </button>            
             </div>                
             <div slot="body">
-                <form-role></form-role>
+                <div class="form-group">
+                    <label for="roleName">Nama Role</label>
+                    <input type="text" class="form-control" id="roleName" aria-describedby="emailHelp">                    
+                </div>   
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>            
         </modal>
 
@@ -66,21 +56,40 @@
 </template>
 
 <script>
-import RoleForm from './FormRoleComponent'
+// import RoleForm from './FormRoleComponent'
 import Modal from '../globalComponent/ModalComponent'
+
+import {mapGetters} from 'vuex';
+import {createHelpers} from 'vuex-map-fields'
+
+const {
+  mapFields
+} = createHelpers({
+  getterType: 'role/getField',
+  mutationType: 'role/UPDATE_FIELD',
+});
+
 export default {
     components:
-    {
-        'form-role': RoleForm,
+    {        
         'modal': Modal
     },
     computed:{
         pageTitle() {   
-            return this.$route.meta.title
-            console.log(this.$route.meta.title);
+            return this.$route.meta.title            
         },
     },
+    created(){
+        this.init();
+    },
     methods:{
+        init()
+        {
+            this.$store.dispatch('role/getAllRole').then((response)=>{
+                console.log(response)
+                this.roles = response
+            })
+        },
         toogleModal()
         {
             this.show_modal = !this.show_modal
@@ -88,7 +97,8 @@ export default {
     },
     data(){
         return{
-            show_modal: false
+            show_modal: false,
+            roles: []
         }
     }
 }
