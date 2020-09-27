@@ -20,4 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/role', 'Api\RoleController@index'); 
+Route::get('/role/delete/{idRole}', 'Api\RoleController@delete'); 
+Route::get('/role/{idRole}', 'Api\RoleController@getOne'); 
 Route::post('/role', 'Api\RoleController@insert'); 
+Route::post('/role/update', 'Api\RoleController@update'); 

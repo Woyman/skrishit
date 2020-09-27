@@ -71,10 +71,12 @@ abstract class GlobalRepository
     public function delete($id)
     {
         if(is_array($id)) {
-            $this->_collection->raw()->deleteMany(['_id' => ['$in' => $id]]);
+            $delete = $this->_collection->raw()->deleteMany(['_id' => ['$in' => $id]]);
         } else {
-            $this->_collection->raw()->deleteOne(['_id' => $id]);
+            $delete = $this->_collection->raw()->deleteOne(['_id' => $id]);
         }
+
+        return $delete;
     }
 
     public function updateRaw($id, $params)

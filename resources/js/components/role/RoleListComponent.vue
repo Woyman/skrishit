@@ -24,7 +24,8 @@
                                 <tr v-for="(role, index) in roles" :key="index" >
                                     <th scope="row">{{ index+1 }}</th>
                                     <td>{{ role.role_name }}</td>                                    
-                                    <td>Edit | Delete</td>
+                                    <td> <button class="btn btn-info btn-sm" @click="toogleModalEdit(role._id)"><i class="fa fa-edit text-white"></i> Edit</button> | 
+                                         <button class="btn btn-outline-danger btn-sm" @click="deleteRole(role._id)"><i class="fa fa-times"></i> Delete</button></td>
                                 </tr>                                
                             </tbody>
                         </table>
@@ -46,9 +47,29 @@
             <div slot="body">
                 <div class="form-group">
                     <label for="roleName">Nama Role</label>
-                    <input type="text" class="form-control" id="roleName" aria-describedby="emailHelp">                    
+                    <input type="text" class="form-control" id="roleName" v-model="role_name">
+                    <small class="text-danger" v-if="required" >Nama Role is required.</small>                    
                 </div>   
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" @click="insertRole">Submit</button>
+            </div>            
+        </modal>
+
+        <modal v-if="show_modal_edit" :width="50" :custom_header="true"> 
+            <div class="modal-header" slot="header">
+                <h5 class="mb-0 header-primary">              
+                Edit Role
+                </h5>          
+                <button type="button" class="close float-right" @click="toogleModalEdit" aria-label="Close">
+                    <span aria-hidden="true">&times;</span> 
+                </button>            
+            </div>                
+            <div slot="body">
+                <div class="form-group">
+                    <label for="roleName">Nama Role</label>
+                    <input type="text" class="form-control" id="roleName" v-model="role_edit.role_name">
+                    <small class="text-danger" v-if="required" >Nama Role is required.</small>                    
+                </div>   
+                <button type="submit" class="btn btn-primary" @click="updateRole">Submit</button>
             </div>            
         </modal>
 
@@ -85,19 +106,102 @@ export default {
     methods:{
         init()
         {
-            this.$store.dispatch('role/getAllRole').then((response)=>{
-                console.log(response)
+            this.$store.dispatch('role/getAllRole').then((response)=>{                
                 this.roles = response
             })
+        },
+        insertRole(){            
+
+            if(this.checkRole_name())
+            {
+                let data = {'role_name': this.role_name}
+                this.$store.dispatch('role/insertRole', data).then((response)=>{
+                    if(response)
+                    {   
+                        this.role_name = ''
+                        this.toogleModal()
+                        this.init()
+                    }
+                    
+                })
+            }
+
+        },      
+        checkRole_name(){
+            // console.log(this.role_name)
+            if(this.role_name == '' )
+            {
+                this.required = true
+                return false
+            }else{
+                this.required = false
+                return true
+            }
+        },
+        deleteRole(idRole){
+            if(confirm("Anda yakin ingin menghapus Role ini? "))
+            {
+                let data = {'idRole' : idRole}
+                this.$store.dispatch('role/deleteRole', data).then((response)=>{
+                       this.init()                
+                })
+            }
         },
         toogleModal()
         {
             this.show_modal = !this.show_modal
+        },
+        toogleModalEdit(idRole)
+        {                        
+            this.role_edit = {}
+            if(this.show_modal_edit == false)
+            {
+                let data = {'idRole' : idRole }
+                this.$store.dispatch('role/getOneRole', data).then((response)=>{   
+                                        
+                    this.role_edit = response  
+                    this.show_modal_edit = !this.show_modal_edit        
+                })
+            }else{
+                 this.show_modal_edit = !this.show_modal_edit 
+            }
+                               
+        },
+        checkEditRole_name(){
+            // console.log(this.role_name)
+            if(this.role_edit.role_name == '' )
+            {
+                this.required = true
+                return false
+            }else{
+                this.required = false
+                return true
+            }
+        },
+        updateRole()
+        {
+            if(this.checkEditRole_name())
+            {
+                let data = this.role_edit                            
+                this.$store.dispatch('role/updateRole', data).then((response)=>{
+                    if(response)
+                    {                           
+                        this.toogleModalEdit()
+                        this.init()
+                    }
+                    
+                })            
+            }
         }
     },
     data(){
         return{
-            show_modal: false,
+            show_modal: false,            
+            role_name: '',           
+            required: false,
+            show_modal_edit: false,
+            role_name_edit: '',
+            role_edit: {},
             roles: []
         }
     }

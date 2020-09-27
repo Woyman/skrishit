@@ -8,26 +8,50 @@ const getAllRole = async (context) => {
     return response.data.data       
 }
 
+const getOneRole = async (context, payload) => {
+    let url = '/api/role/'+payload.idRole                
+    let response = await Axios.get(url)
+
+    // console.log(response)
+    return response.data.data       
+}
+
 const insertRole = async (context, payload) => {
-    let url = '/api/role'                
-    let response = await Axios.post(url, {
-        params: payload
-    })
+    let url = '/api/role'          
+    // console.log(payload)  
+    
+    let response = await Axios.post(url, payload)
 
     return response.data.data        
 }
 
-// const getCustomerDetail = async (context, payload) => {
-//     let url = '/api/v1/customer/detail'                
-//     let response = await Axios.get(url, {
-//         params: payload
-//     })
+const deleteRole = async (context, payload) => {
+    
+    console.log(payload)  
+    let url = '/api/role/delete/'+payload.idRole          
+    console.log(url)  
+    let response = await Axios.get(url)
 
-//     return response.data.data        
-// }
+    return response.data.data        
+}
+
+const updateRole = async (context, payload) => {
+    let url = '/api/role/update'          
+    // console.log(payload)  
+    let data = {
+        '_id': payload._id,
+        'role_name' : payload.role_name
+    }
+    let response = await Axios.post(url, data)
+
+    return response.data.data        
+}
 
 export {
     getAllRole,
-    insertRole
+    getOneRole,
+    insertRole,
+    deleteRole,
+    updateRole
     
 };

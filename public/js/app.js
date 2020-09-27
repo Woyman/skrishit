@@ -2172,6 +2172,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import RoleForm from './FormRoleComponent'
 
 
@@ -2200,17 +2221,102 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
       var _this = this;
 
       this.$store.dispatch('role/getAllRole').then(function (response) {
-        console.log(response);
         _this.roles = response;
       });
     },
+    insertRole: function insertRole() {
+      var _this2 = this;
+
+      if (this.checkRole_name()) {
+        var data = {
+          'role_name': this.role_name
+        };
+        this.$store.dispatch('role/insertRole', data).then(function (response) {
+          if (response) {
+            _this2.role_name = '';
+
+            _this2.toogleModal();
+
+            _this2.init();
+          }
+        });
+      }
+    },
+    checkRole_name: function checkRole_name() {
+      // console.log(this.role_name)
+      if (this.role_name == '') {
+        this.required = true;
+        return false;
+      } else {
+        this.required = false;
+        return true;
+      }
+    },
+    deleteRole: function deleteRole(idRole) {
+      var _this3 = this;
+
+      if (confirm("Anda yakin ingin menghapus Role ini? ")) {
+        var data = {
+          'idRole': idRole
+        };
+        this.$store.dispatch('role/deleteRole', data).then(function (response) {
+          _this3.init();
+        });
+      }
+    },
     toogleModal: function toogleModal() {
       this.show_modal = !this.show_modal;
+    },
+    toogleModalEdit: function toogleModalEdit(idRole) {
+      var _this4 = this;
+
+      this.role_edit = {};
+
+      if (this.show_modal_edit == false) {
+        var data = {
+          'idRole': idRole
+        };
+        this.$store.dispatch('role/getOneRole', data).then(function (response) {
+          _this4.role_edit = response;
+          _this4.show_modal_edit = !_this4.show_modal_edit;
+        });
+      } else {
+        this.show_modal_edit = !this.show_modal_edit;
+      }
+    },
+    checkEditRole_name: function checkEditRole_name() {
+      // console.log(this.role_name)
+      if (this.role_edit.role_name == '') {
+        this.required = true;
+        return false;
+      } else {
+        this.required = false;
+        return true;
+      }
+    },
+    updateRole: function updateRole() {
+      var _this5 = this;
+
+      if (this.checkEditRole_name()) {
+        var data = this.role_edit;
+        this.$store.dispatch('role/updateRole', data).then(function (response) {
+          if (response) {
+            _this5.toogleModalEdit();
+
+            _this5.init();
+          }
+        });
+      }
     }
   },
   data: function data() {
     return {
       show_modal: false,
+      role_name: '',
+      required: false,
+      show_modal_edit: false,
+      role_name_edit: '',
+      role_edit: {},
       roles: []
     };
   }
@@ -39474,7 +39580,39 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(role.role_name))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v("Edit | Delete")])
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.toogleModalEdit(role._id)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-edit text-white" }),
+                            _vm._v(" Edit")
+                          ]
+                        ),
+                        _vm._v(" | \n                                     "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteRole(role._id)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-times" }),
+                            _vm._v(" Delete")
+                          ]
+                        )
+                      ])
                     ])
                   }),
                   0
@@ -39524,18 +39662,119 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.role_name,
+                      expression: "role_name"
+                    }
+                  ],
                   staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "roleName",
-                    "aria-describedby": "emailHelp"
+                  attrs: { type: "text", id: "roleName" },
+                  domProps: { value: _vm.role_name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.role_name = $event.target.value
+                    }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _vm.required
+                  ? _c("small", { staticClass: "text-danger" }, [
+                      _vm._v("Nama Role is required.")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c(
                 "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "submit" },
+                  on: { click: _vm.insertRole }
+                },
+                [_vm._v("Submit")]
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.show_modal_edit
+        ? _c("modal", { attrs: { width: 50, custom_header: true } }, [
+            _c(
+              "div",
+              {
+                staticClass: "modal-header",
+                attrs: { slot: "header" },
+                slot: "header"
+              },
+              [
+                _c("h5", { staticClass: "mb-0 header-primary" }, [
+                  _vm._v("              \n            Edit Role\n            ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close float-right",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: { click: _vm.toogleModalEdit }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { attrs: { slot: "body" }, slot: "body" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "roleName" } }, [
+                  _vm._v("Nama Role")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.role_edit.role_name,
+                      expression: "role_edit.role_name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "roleName" },
+                  domProps: { value: _vm.role_edit.role_name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.role_edit, "role_name", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.required
+                  ? _c("small", { staticClass: "text-danger" }, [
+                      _vm._v("Nama Role is required.")
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "submit" },
+                  on: { click: _vm.updateRole }
+                },
                 [_vm._v("Submit")]
               )
             ])
@@ -56910,13 +57149,16 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*!****************************************************!*\
   !*** ./resources/js/store/modules/role/actions.js ***!
   \****************************************************/
-/*! exports provided: getAllRole, insertRole */
+/*! exports provided: getAllRole, getOneRole, insertRole, deleteRole, updateRole */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllRole", function() { return getAllRole; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOneRole", function() { return getOneRole; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertRole", function() { return insertRole; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteRole", function() { return deleteRole; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateRole", function() { return updateRole; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -56957,18 +57199,16 @@ var getAllRole = /*#__PURE__*/function () {
   };
 }();
 
-var insertRole = /*#__PURE__*/function () {
+var getOneRole = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(context, payload) {
     var url, response;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            url = '/api/role';
+            url = '/api/role/' + payload.idRole;
             _context2.next = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
-              params: payload
-            });
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
 
           case 3:
             response = _context2.sent;
@@ -56982,17 +57222,102 @@ var insertRole = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function insertRole(_x2, _x3) {
+  return function getOneRole(_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
-}(); // const getCustomerDetail = async (context, payload) => {
-//     let url = '/api/v1/customer/detail'                
-//     let response = await Axios.get(url, {
-//         params: payload
-//     })
-//     return response.data.data        
-// }
+}();
 
+var insertRole = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(context, payload) {
+    var url, response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            url = '/api/role'; // console.log(payload)  
+
+            _context3.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, payload);
+
+          case 3:
+            response = _context3.sent;
+            return _context3.abrupt("return", response.data.data);
+
+          case 5:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function insertRole(_x4, _x5) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+var deleteRole = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(context, payload) {
+    var url, response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            console.log(payload);
+            url = '/api/role/delete/' + payload.idRole;
+            console.log(url);
+            _context4.next = 5;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
+
+          case 5:
+            response = _context4.sent;
+            return _context4.abrupt("return", response.data.data);
+
+          case 7:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function deleteRole(_x6, _x7) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+var updateRole = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(context, payload) {
+    var url, data, response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            url = '/api/role/update'; // console.log(payload)  
+
+            data = {
+              '_id': payload._id,
+              'role_name': payload.role_name
+            };
+            _context5.next = 4;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, data);
+
+          case 4:
+            response = _context5.sent;
+            return _context5.abrupt("return", response.data.data);
+
+          case 6:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+
+  return function updateRole(_x8, _x9) {
+    return _ref5.apply(this, arguments);
+  };
+}();
 
 
 
