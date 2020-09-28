@@ -24,3 +24,10 @@ Route::get('/role/delete/{idRole}', 'Api\RoleController@delete');
 Route::get('/role/{idRole}', 'Api\RoleController@getOne'); 
 Route::post('/role', 'Api\RoleController@insert'); 
 Route::post('/role/update', 'Api\RoleController@update'); 
+
+
+Route::get('/speciality', 'Api\SpecialityController@index'); 
+Route::get('/speciality/delete/{idSpeciality}', 'Api\SpecialityController@delete'); 
+Route::get('/speciality/{idSpeciality}', 'Api\SpecialityController@getOne'); 
+Route::post('/speciality', 'Api\SpecialityController@insert'); 
+Route::post('/speciality/update', 'Api\SpecialityController@update'); 
