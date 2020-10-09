@@ -6,18 +6,25 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Dahsboard<span class="sr-only">(current)</span></a>
+            <li class="nav-item" v-bind:class="this.pathName == 'dashboard' ? 'active': '' ">
+                <a class="nav-link" href="/">Dahsboard<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-bind:class="this.pathName == 'role' ? 'active': '' ">
                 <a class="nav-link" href="/role" >Role</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-bind:class="this.pathName == 'speciality' ? 'active': '' ">
                 <a class="nav-link" href="/speciality">Speciality</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <li class="nav-item" v-bind:class="this.pathName == 'hero' ? 'active': '' ">
+                <a class="nav-link" href="/hero" >Hero</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/hero" >Kriteria</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/hero" >Perhitungan Electre</a>
+            </li>
+
             </ul>
         </div>
     </nav>
@@ -33,15 +40,13 @@ created(){
 	this.init();
 },
 methods:{
-	init(){		
-		this.request.merchant = this.merchant		
+	init(){		          
+            this.pathName = this.$route.meta.menuParent
 	}
 },
 data() {
 	return {
-		request:{
-
-		}
+        pathName: ''
 	}
 }
 				

@@ -1,6 +1,8 @@
 import Dashboard from '../components/ExampleComponent.vue'
 import Role from '../components/role/RoleListComponent.vue'
 import Speciality from '../components/speciality/SpecialityListComponent.vue'
+import Hero from '../components/hero/HeroListComponent.vue'
+import AddHero from '../components/hero/HeroFormComponent.vue'
     
 export default [
 
@@ -9,7 +11,8 @@ export default [
 		name : 'dashboard',
         meta : { 
                  name : 'Dashboard',                                   
-                 title : 'Dashboard',                    
+                 title : 'Dashboard',  
+                 menuParent: 'dashboard'                  
                },
     component : Dashboard,
   
@@ -19,7 +22,8 @@ export default [
 		name : 'admin.role',
         meta : { 
                  name : 'Role',                                   
-                 title : 'Role',                    
+                 title : 'Role',        
+                 menuParent: 'role'            
                },
     component : Role,  
   },    
@@ -28,9 +32,31 @@ export default [
 		name : 'admin.speciality',
         meta : { 
                  name : 'Speciality',                                   
-                 title : 'Speciality',                    
+                 title : 'Speciality',    
+                 menuParent: 'speciality'                
                },
     component : Speciality,  
   },     
   
+  {
+		path : '/hero',
+		name : 'admin.hero',
+        meta : { 
+                 name : 'Hero',                                   
+                 title : 'Hero',    
+                 menuParent: 'hero'                                
+               },
+    component : Hero,  
+  },   
+  {
+		path : '/hero/add',
+		name : 'admin.hero.add',
+        meta : { 
+                 name : 'Add New Hero',                                   
+                 title : 'Add New Hero',    
+                 menuParent: 'speciality'                                
+               },
+    component : AddHero,  
+  },   
+
 ];    

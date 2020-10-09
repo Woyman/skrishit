@@ -1,10 +1,14 @@
-require('./bootstrap');
+// require('./bootstrap');
 window.Vue = require('vue');
 
 import router from './router/index.js'
 import store from './store/index.js'
 
 import App from './components/AppComponent'
+
+import SimpleVueValidation from 'simple-vue-validator'
+
+Vue.use(SimpleVueValidation)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

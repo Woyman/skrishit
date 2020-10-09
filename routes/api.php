@@ -31,3 +31,9 @@ Route::get('/speciality/delete/{idSpeciality}', 'Api\SpecialityController@delete
 Route::get('/speciality/{idSpeciality}', 'Api\SpecialityController@getOne'); 
 Route::post('/speciality', 'Api\SpecialityController@insert'); 
 Route::post('/speciality/update', 'Api\SpecialityController@update'); 
+
+Route::get('/hero', 'Api\HeroController@index'); 
+// Route::get('/speciality/delete/{idSpeciality}', 'Api\SpecialityController@delete'); 
+// Route::get('/speciality/{idSpeciality}', 'Api\SpecialityController@getOne'); 
+Route::post('/hero', 'Api\HeroController@insert'); 
+// Route::post('/speciality/update', 'Api\SpecialityController@update'); 
