@@ -38,17 +38,14 @@ class HeroController
     }
 
     public function insert(Request $req)
-    {
-        // print_r($req->all());
-        $att = $req->all();
-        print_r($req->file('photo'));
-                
-        // $data = $this->service->insert($att);
+    {        
+        $att = $req->all();                        
+        $data = $this->service->insert($att);
 
-        // return response()->json(
-        //     UtilHelper::makeResponse('Insert Hero', $data),
-        //     200
-        // );
+        return response()->json(
+            UtilHelper::makeResponse('Insert Hero', $data),
+            200
+        );
     }
 
     public function update(Request $req)

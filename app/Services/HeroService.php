@@ -37,6 +37,15 @@ class HeroService
 
     public function insert($att)
     {
+        if($att['photo']->isValid())
+        {
+            $image = $att['photo'];
+            $fileName = date('YmdHis').$image->getClientOriginalName();
+            $path = 'image/'.$fileName;
+            $image->move('image', $fileName);
+            $att['photo'] = $path;
+        }
+        
         $insert = $this->repo->save($att);
         return $insert;
     }

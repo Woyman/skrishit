@@ -2264,6 +2264,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 // import RoleForm from './FormRoleComponent'
 
 
@@ -2311,7 +2312,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
         magic_power: this.validation.firstError('hero.attributes.magic_power'),
         magic_deff: this.validation.firstError('hero.attributes.magic_deff'),
         mana: this.validation.firstError('hero.attributes.mana'),
-        mana_regen: this.validation.firstError('hero.attributes.mana_regen')
+        mana_regen: this.validation.firstError('hero.attributes.mana_regen'),
+        photo: this.validation.firstError('hero.photo')
       };
     }
   }),
@@ -2375,6 +2377,9 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
     },
     'hero.attributes.mana_regen': function heroAttributesMana_regen(value) {
       return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
+    },
+    'hero.photo': function heroPhoto(value) {
+      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
     }
   },
   created: function created() {
@@ -2420,15 +2425,35 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       parent = this;
       var data = new FormData();
       var hero = this.hero;
-
-      for (var key in hero) {
-        data.append(key, hero[key]);
-      }
-
+      data.append('name', hero.name);
+      data.append('alias', hero.alias);
+      data.append('photo', hero.photo);
+      hero.role.forEach(function (role) {
+        return data.append("role[]", role);
+      });
+      hero.speciality.forEach(function (speciality) {
+        return data.append("speciality[]", speciality);
+      });
+      data.append('durability', hero.durability);
+      data.append('offense', hero.offense);
+      data.append('skill_effect', hero.skill_effect);
+      data.append('difficulty', hero.difficulty);
+      data.append('attributes[move_speed]', hero.attributes.move_speed);
+      data.append('attributes[att_speed]', hero.attributes.att_speed);
+      data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate);
+      data.append('attributes[physical_att]', hero.attributes.physical_att);
+      data.append('attributes[physical_deff]', hero.attributes.physical_deff);
+      data.append('attributes[hp]', hero.attributes.hp);
+      data.append('attributes[hp_regen]', hero.attributes.hp_regen);
+      data.append('attributes[magic_power]', hero.attributes.magic_power);
+      data.append('attributes[magic_deff]', hero.attributes.magic_deff);
+      data.append('attributes[mana]', hero.attributes.mana);
+      data.append('attributes[mana_regen]', hero.attributes.mana_regen);
       console.log(data);
       this.$store.dispatch('hero/insertHero', data).then(function (response) {
         if (response) {
-          alert('Hero baru telah ditambahkan'); //   parent.$router.push('/hero')
+          alert('Hero baru telah ditambahkan');
+          parent.$router.push('/hero');
         }
       });
     }
@@ -3148,7 +3173,7 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, "/**\r\n * vue-range-slider v1.0.3\r\n * (c) 2016-2019 xwpongithub\r\n * Released under the MIT License.\r\n */\r\n.vue-range-slider.slider-component {\r\n  position: relative;\r\n  box-sizing: border-box;\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n      -ms-user-select: none;\r\n          user-select: none;\r\n}\r\n.vue-range-slider.slider-component .slider {\r\n  position: relative;\r\n  display: block;\r\n  border-radius: 15px;\r\n  background-color: #ccc;\r\n}\r\n.vue-range-slider.slider-component .slider::after {\r\n  content: '';\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 2;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot {\r\n  position: absolute;\r\n  transition: all 0s;\r\n  will-change: transform;\r\n  cursor: pointer;\r\n  z-index: 5;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot .slider-dot-handle {\r\n  width: 100%;\r\n  height: 100%;\r\n  border-radius: 50%;\r\n  background-color: #fff;\r\n  box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-dot-focus .slider-dot-handle {\r\n  box-shadow: 0 0 2px 1px #3498db;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-dot-dragging {\r\n  z-index: 5;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-dot-disabled {\r\n  z-index: 4;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-hover:hover .slider-tooltip-wrap {\r\n  display: block;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-always .slider-tooltip-wrap {\r\n  display: block !important;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-process {\r\n  position: absolute;\r\n  border-radius: 15px;\r\n  background-color: #3498db;\r\n  z-index: 1;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-process.slider-process-draggable {\r\n  cursor: pointer;\r\n  z-index: 3;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-input {\r\n  position: absolute;\r\n  overflow: hidden;\r\n  height: 1px;\r\n  width: 1px;\r\n  clip: rect(1px, 1px, 1px, 1px);\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise {\r\n  position: absolute;\r\n  width: 100%;\r\n  padding: 0;\r\n  margin: 0;\r\n  left: 0;\r\n  top: 0;\r\n  height: 100%;\r\n  list-style: none;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item {\r\n  position: absolute;\r\n  width: 8px;\r\n  height: 8px;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item:first-child .piecewise-dot,\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item:last-child .piecewise-dot {\r\n  visibility: hidden;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item .piecewise-dot {\r\n  position: absolute;\r\n  left: 50%;\r\n  top: 50%;\r\n  width: 100%;\r\n  height: 100%;\r\n  display: inline-block;\r\n  background-color: rgba(0,0,0,0.16);\r\n  border-radius: 50%;\r\n  transform: translate(-50%, -50%);\r\n  z-index: 2;\r\n  transition: all 0.3s;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal .slider-dot {\r\n  left: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal .slider-process {\r\n  width: 0;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  will-change: width;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical .slider-dot {\r\n  bottom: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical .slider-process {\r\n  width: 100%;\r\n  height: 0;\r\n  bottom: 0;\r\n  left: 0;\r\n  will-change: height;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal-reverse .slider-dot {\r\n  right: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal-reverse .slider-process {\r\n  width: 0;\r\n  height: 100%;\r\n  top: 0;\r\n  right: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical-reverse .slider-dot {\r\n  top: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical-reverse .slider-process {\r\n  width: 100%;\r\n  height: 0;\r\n  top: 0;\r\n  left: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal .slider-piecewise .piecewise-item .piecewise-label,\r\n.vue-range-slider.slider-component.slider-horizontal-reverse .slider-piecewise .piecewise-item .piecewise-label {\r\n  position: absolute;\r\n  display: inline-block;\r\n  top: 100%;\r\n  left: 50%;\r\n  white-space: nowrap;\r\n  font-size: 12px;\r\n  color: #333;\r\n  transform: translate(-50%, 8px);\r\n  visibility: visible;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical .slider-piecewise .piecewise-item .piecewise-label,\r\n.vue-range-slider.slider-component.slider-vertical-reverse .slider-piecewise .piecewise-item .piecewise-label {\r\n  position: absolute;\r\n  display: inline-block;\r\n  top: 50%;\r\n  left: 100%;\r\n  white-space: nowrap;\r\n  font-size: 12px;\r\n  color: #333;\r\n  transform: translate(8px, -50%);\r\n  visibility: visible;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap {\r\n  display: none;\r\n  position: absolute;\r\n  z-index: 9;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.merged-tooltip {\r\n  display: block;\r\n  visibility: hidden;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-top {\r\n  top: -9px;\r\n  left: 50%;\r\n  transform: translate(-50%, -100%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-top .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  bottom: -10px;\r\n  left: 50%;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-top-color: inherit;\r\n  transform: translate(-50%, 0);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom {\r\n  bottom: -9px;\r\n  left: 50%;\r\n  transform: translate(-50%, 100%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  top: -10px;\r\n  left: 50%;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-bottom-color: inherit;\r\n  transform: translate(-50%, 0);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-left {\r\n  top: 50%;\r\n  left: -9px;\r\n  transform: translate(-100%, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-left .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 50%;\r\n  right: -10px;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-left-color: inherit;\r\n  transform: translate(0, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-right {\r\n  top: 50%;\r\n  right: -9px;\r\n  transform: translate(100%, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-right .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 50%;\r\n  left: -10px;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-right-color: inherit;\r\n  transform: translate(0, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.merged-tooltip {\r\n  display: block;\r\n  visibility: hidden;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap .slider-tooltip {\r\n  display: block;\r\n  font-size: 14px;\r\n  white-space: nowrap;\r\n  padding: 2px 5px;\r\n  min-width: 20px;\r\n  text-align: center;\r\n  color: #fff;\r\n  border-radius: 5px;\r\n  border: 1px solid #3498db;\r\n  background-color: #3498db;\r\n}\r\n.vue-range-slider.slider-component.slider-disabled {\r\n  opacity: 0.5;\r\n  cursor: not-allowed;\r\n}\r\n.vue-range-slider.slider-component.slider-disabled .slider-dot {\r\n  cursor: not-allowed;\r\n}\r\n.vue-range-slider.slider-component.slider-has-label {\r\n  margin-bottom: 15px;\r\n}\r\n", ""]);
+exports.push([module.i, "/**\r\n * vue-range-slider v1.0.3\r\n * (c) 2016-2019 xwpongithub\r\n * Released under the MIT License.\r\n */\r\n.vue-range-slider.slider-component {\r\n  position: relative;\r\n  -webkit-box-sizing: border-box;\r\n          box-sizing: border-box;\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n      -ms-user-select: none;\r\n          user-select: none;\r\n}\r\n.vue-range-slider.slider-component .slider {\r\n  position: relative;\r\n  display: block;\r\n  border-radius: 15px;\r\n  background-color: #ccc;\r\n}\r\n.vue-range-slider.slider-component .slider::after {\r\n  content: '';\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 2;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot {\r\n  position: absolute;\r\n  -webkit-transition: all 0s;\r\n  transition: all 0s;\r\n  will-change: transform;\r\n  cursor: pointer;\r\n  z-index: 5;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot .slider-dot-handle {\r\n  width: 100%;\r\n  height: 100%;\r\n  border-radius: 50%;\r\n  background-color: #fff;\r\n  -webkit-box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);\r\n          box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-dot-focus .slider-dot-handle {\r\n  -webkit-box-shadow: 0 0 2px 1px #3498db;\r\n          box-shadow: 0 0 2px 1px #3498db;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-dot-dragging {\r\n  z-index: 5;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-dot-disabled {\r\n  z-index: 4;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-hover:hover .slider-tooltip-wrap {\r\n  display: block;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-dot.slider-always .slider-tooltip-wrap {\r\n  display: block !important;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-process {\r\n  position: absolute;\r\n  border-radius: 15px;\r\n  background-color: #3498db;\r\n  z-index: 1;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-process.slider-process-draggable {\r\n  cursor: pointer;\r\n  z-index: 3;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-input {\r\n  position: absolute;\r\n  overflow: hidden;\r\n  height: 1px;\r\n  width: 1px;\r\n  clip: rect(1px, 1px, 1px, 1px);\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise {\r\n  position: absolute;\r\n  width: 100%;\r\n  padding: 0;\r\n  margin: 0;\r\n  left: 0;\r\n  top: 0;\r\n  height: 100%;\r\n  list-style: none;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item {\r\n  position: absolute;\r\n  width: 8px;\r\n  height: 8px;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item:first-child .piecewise-dot,\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item:last-child .piecewise-dot {\r\n  visibility: hidden;\r\n}\r\n.vue-range-slider.slider-component .slider .slider-piecewise .piecewise-item .piecewise-dot {\r\n  position: absolute;\r\n  left: 50%;\r\n  top: 50%;\r\n  width: 100%;\r\n  height: 100%;\r\n  display: inline-block;\r\n  background-color: rgba(0,0,0,0.16);\r\n  border-radius: 50%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 2;\r\n  -webkit-transition: all 0.3s;\r\n  transition: all 0.3s;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal .slider-dot {\r\n  left: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal .slider-process {\r\n  width: 0;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  will-change: width;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical .slider-dot {\r\n  bottom: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical .slider-process {\r\n  width: 100%;\r\n  height: 0;\r\n  bottom: 0;\r\n  left: 0;\r\n  will-change: height;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal-reverse .slider-dot {\r\n  right: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal-reverse .slider-process {\r\n  width: 0;\r\n  height: 100%;\r\n  top: 0;\r\n  right: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical-reverse .slider-dot {\r\n  top: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical-reverse .slider-process {\r\n  width: 100%;\r\n  height: 0;\r\n  top: 0;\r\n  left: 0;\r\n}\r\n.vue-range-slider.slider-component.slider-horizontal .slider-piecewise .piecewise-item .piecewise-label,\r\n.vue-range-slider.slider-component.slider-horizontal-reverse .slider-piecewise .piecewise-item .piecewise-label {\r\n  position: absolute;\r\n  display: inline-block;\r\n  top: 100%;\r\n  left: 50%;\r\n  white-space: nowrap;\r\n  font-size: 12px;\r\n  color: #333;\r\n  -webkit-transform: translate(-50%, 8px);\r\n          transform: translate(-50%, 8px);\r\n  visibility: visible;\r\n}\r\n.vue-range-slider.slider-component.slider-vertical .slider-piecewise .piecewise-item .piecewise-label,\r\n.vue-range-slider.slider-component.slider-vertical-reverse .slider-piecewise .piecewise-item .piecewise-label {\r\n  position: absolute;\r\n  display: inline-block;\r\n  top: 50%;\r\n  left: 100%;\r\n  white-space: nowrap;\r\n  font-size: 12px;\r\n  color: #333;\r\n  -webkit-transform: translate(8px, -50%);\r\n          transform: translate(8px, -50%);\r\n  visibility: visible;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap {\r\n  display: none;\r\n  position: absolute;\r\n  z-index: 9;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.merged-tooltip {\r\n  display: block;\r\n  visibility: hidden;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-top {\r\n  top: -9px;\r\n  left: 50%;\r\n  -webkit-transform: translate(-50%, -100%);\r\n          transform: translate(-50%, -100%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-top .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  bottom: -10px;\r\n  left: 50%;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-top-color: inherit;\r\n  -webkit-transform: translate(-50%, 0);\r\n          transform: translate(-50%, 0);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom {\r\n  bottom: -9px;\r\n  left: 50%;\r\n  -webkit-transform: translate(-50%, 100%);\r\n          transform: translate(-50%, 100%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  top: -10px;\r\n  left: 50%;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-bottom-color: inherit;\r\n  -webkit-transform: translate(-50%, 0);\r\n          transform: translate(-50%, 0);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-left {\r\n  top: 50%;\r\n  left: -9px;\r\n  -webkit-transform: translate(-100%, -50%);\r\n          transform: translate(-100%, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-left .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 50%;\r\n  right: -10px;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-left-color: inherit;\r\n  -webkit-transform: translate(0, -50%);\r\n          transform: translate(0, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-right {\r\n  top: 50%;\r\n  right: -9px;\r\n  -webkit-transform: translate(100%, -50%);\r\n          transform: translate(100%, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-right .slider-tooltip::before {\r\n  content: '';\r\n  position: absolute;\r\n  top: 50%;\r\n  left: -10px;\r\n  width: 0;\r\n  height: 0;\r\n  border: 5px solid transparent;\r\n  border-right-color: inherit;\r\n  -webkit-transform: translate(0, -50%);\r\n          transform: translate(0, -50%);\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap.merged-tooltip {\r\n  display: block;\r\n  visibility: hidden;\r\n}\r\n.vue-range-slider.slider-component .slider-tooltip-wrap .slider-tooltip {\r\n  display: block;\r\n  font-size: 14px;\r\n  white-space: nowrap;\r\n  padding: 2px 5px;\r\n  min-width: 20px;\r\n  text-align: center;\r\n  color: #fff;\r\n  border-radius: 5px;\r\n  border: 1px solid #3498db;\r\n  background-color: #3498db;\r\n}\r\n.vue-range-slider.slider-component.slider-disabled {\r\n  opacity: 0.5;\r\n  cursor: not-allowed;\r\n}\r\n.vue-range-slider.slider-component.slider-disabled .slider-dot {\r\n  cursor: not-allowed;\r\n}\r\n.vue-range-slider.slider-component.slider-has-label {\r\n  margin-bottom: 15px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -7775,6 +7800,7 @@ var render = function() {
                       _c("input", {
                         ref: "fileInput",
                         staticClass: "custom-file-input",
+                        class: [{ "is-invalid": _vm.errors.photo }],
                         attrs: {
                           type: "file",
                           accept: "image/*",
@@ -7795,7 +7821,18 @@ var render = function() {
                         },
                         [_vm._v(_vm._s(_vm.hero.photo_name))]
                       )
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.errors.photo !== null
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "invalid-feedback",
+                            staticStyle: { display: "unset" }
+                          },
+                          [_vm._v("Gambar belum dipilih.")]
+                        )
+                      : _vm._e()
                   ])
                 ]),
                 _vm._v(" "),

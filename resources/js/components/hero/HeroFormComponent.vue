@@ -43,9 +43,10 @@
                                     <div class="form-group">
                                         <label for="customFile">Gambar Hero</label>                     
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" ref="fileInput" accept="image/*" id="customFile" @input="getPict($event.target.files)" >
+                                            <input type="file" class="custom-file-input" ref="fileInput" :class="[{'is-invalid' : errors.photo }]" accept="image/*" id="customFile" @input="getPict($event.target.files)" >
                                             <label class="custom-file-label" for="customFile">{{ hero.photo_name }}</label>
                                         </div>
+                                        <div class="invalid-feedback" v-if="errors.photo !== null " style="display:unset">Gambar belum dipilih.</div>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -247,6 +248,7 @@ export default {
                 magic_deff: this.validation.firstError('hero.attributes.magic_deff'),
                 mana: this.validation.firstError('hero.attributes.mana'),
                 mana_regen: this.validation.firstError('hero.attributes.mana_regen'),
+                photo: this.validation.firstError('hero.photo'),
             }
         }
     },   
@@ -311,6 +313,9 @@ export default {
         'hero.attributes.mana_regen': function (value) {
             return Validator.value(value).required()
         },
+        'hero.photo': function (value) {
+            return Validator.value(value).required()
+        },
     },
     created(){
         this.init();
@@ -364,11 +369,30 @@ export default {
             parent = this            
             let data = new FormData()
             var hero = this.hero
+            
+            data.append('name', hero.name)
+            data.append('alias', hero.alias)
+            data.append('photo', hero.photo)
 
-            for ( var key in hero ) {
-                data.append(key, hero[key]);
-            }
-
+            hero.role.forEach((role) => data.append("role[]", role))
+            hero.speciality.forEach((speciality) => data.append("speciality[]", speciality))            
+            
+            data.append('durability', hero.durability)
+            data.append('offense', hero.offense)
+            data.append('skill_effect', hero.skill_effect)
+            data.append('difficulty', hero.difficulty)
+            data.append('attributes[move_speed]', hero.attributes.move_speed)
+            data.append('attributes[att_speed]', hero.attributes.att_speed)
+            data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate)
+            data.append('attributes[physical_att]', hero.attributes.physical_att)
+            data.append('attributes[physical_deff]', hero.attributes.physical_deff)
+            data.append('attributes[hp]', hero.attributes.hp)
+            data.append('attributes[hp_regen]', hero.attributes.hp_regen)
+            data.append('attributes[magic_power]', hero.attributes.magic_power)
+            data.append('attributes[magic_deff]', hero.attributes.magic_deff)
+            data.append('attributes[mana]', hero.attributes.mana)
+            data.append('attributes[mana_regen]', hero.attributes.mana_regen)
+            
             console.log(data);
 
             this.$store.dispatch('hero/insertHero', data).then((response)=>{                
@@ -376,7 +400,7 @@ export default {
               if(response)
               {
                   alert('Hero baru telah ditambahkan')
-                //   parent.$router.push('/hero')
+                  parent.$router.push('/hero')
               }
                                                                 
             })
