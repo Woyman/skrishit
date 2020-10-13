@@ -36,3 +36,9 @@ Route::get('/hero/delete/{idHero}', 'Api\HeroController@delete');
 Route::get('/hero/{idHero}', 'Api\HeroController@getOne'); 
 Route::post('/hero', 'Api\HeroController@insert'); 
 Route::post('/hero/update', 'Api\HeroController@update'); 
+
+Route::get('/kriteria', 'Api\KriteriaController@index'); 
+Route::get('/kriteria/delete/{idHero}', 'Api\KriteriaController@delete'); 
+Route::get('/kriteria/{idHero}', 'Api\KriteriaController@getOne'); 
+Route::post('/kriteria', 'Api\KriteriaController@insert'); 
+Route::post('/kriteria/update', 'Api\KriteriaController@update'); 

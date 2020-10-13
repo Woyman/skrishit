@@ -18,8 +18,8 @@
             <li class="nav-item" v-bind:class="this.pathName == 'hero' ? 'active': '' ">
                 <a class="nav-link" href="/hero" >Hero</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/hero" >Kriteria</a>
+            <li class="nav-item" v-bind:class="this.pathName == 'kriteria' ? 'active': '' ">
+                <a class="nav-link" href="/kriteria" >Kriteria</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/hero" >Perhitungan Electre</a>

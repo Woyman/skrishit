@@ -3,6 +3,7 @@ import Role from '../components/role/RoleListComponent.vue'
 import Speciality from '../components/speciality/SpecialityListComponent.vue'
 import Hero from '../components/hero/HeroListComponent.vue'
 import AddHero from '../components/hero/HeroFormComponent.vue'
+import Kriteria from '../components/kriteria/KriteriaListComponent.vue'
     
 export default [
 
@@ -67,6 +68,17 @@ export default [
                  menuParent: 'hero'                                
                },
     component : AddHero,  
+  },   
+
+  {
+		path : '/kriteria',
+		name : 'admin.kriteria',
+        meta : { 
+                 name : 'Kriteria',                                   
+                 title : 'Kriteria',    
+                 menuParent: 'kriteria'                                
+               },
+    component : Kriteria,  
   },   
 
 ];    
