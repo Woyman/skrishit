@@ -8,12 +8,25 @@ const getAllHero = async (context) => {
     return response.data.data       
 }
 
-const getOneSpeciality = async (context, payload) => {
-    let url = '/api/speciality/'+payload.idSpeciality                
+const getOneHero = async (context, payload) => {
+    let url = '/api/hero/'+payload.idHero                
     let response = await Axios.get(url)
+    // console.log(response)  
+    let hero = response.data.data       
+    let role = hero.role
+    let speciality = hero.speciality
+    hero.role = role.join(', ')
+    hero.speciality = speciality.join(', ')
 
-    // console.log(response)
-    return response.data.data       
+    return hero
+}
+
+const setHero = async (context, payload) => {
+    let url = '/api/hero/'+payload.idHero                
+    let response = await Axios.get(url)
+    // console.log(response)  
+    // return response.data.data  
+    context.commit('SET_HERO', response.data.data)     
 }
 
 const insertHero = async (context, payload) => {
@@ -25,33 +38,29 @@ const insertHero = async (context, payload) => {
     return response.data.data        
 }
 
-const deleteSpeciality = async (context, payload) => {
-    
-    // console.log(payload)  
-    let url = '/api/speciality/delete/'+payload.idSpeciality          
+const deleteHero = async (context, payload) => {
+         
+    let url = '/api/hero/delete/'+payload.idHero          
     // console.log(url)  
     let response = await Axios.get(url)
 
     return response.data.data        
 }
 
-const updateSpeciality = async (context, payload) => {
-    let url = '/api/speciality/update'          
+const updateHero = async (context, payload) => {
+    let url = '/api/hero/update'          
     // console.log(payload)  
-    let data = {
-        '_id': payload._id,
-        'speciality_name' : payload.speciality_name
-    }
-    let response = await Axios.post(url, data)
+    let response = await Axios.post(url, payload)
 
     return response.data.data        
 }
 
 export {
     getAllHero,
-    getOneSpeciality,
+    getOneHero,
+    setHero,
     insertHero,
-    deleteSpeciality,
-    updateSpeciality
+    deleteHero,
+    updateHero
     
 };

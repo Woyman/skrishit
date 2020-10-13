@@ -46,12 +46,14 @@
                                             <input type="file" class="custom-file-input" ref="fileInput" :class="[{'is-invalid' : errors.photo }]" accept="image/*" id="customFile" @input="getPict($event.target.files)" >
                                             <label class="custom-file-label" for="customFile">{{ hero.photo_name }}</label>
                                         </div>
+                                        <small v-if="idHero" style="font-size: 70%">Pilih untuk mengganti gambar sebelumnya</small>
                                         <div class="invalid-feedback" v-if="errors.photo !== null " style="display:unset">Gambar belum dipilih.</div>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                         <div class="pict_hero_here">
-                                            <img v-if="imgUrl" :src="imgUrl"  style="max-width: 250px; mas-heigth: 250px">
+                                            <img :src="'../../'+hero.photo"  style="max-width: 250px; mas-heigth: 250px" v-if="idHero && imgUrl == null ">
+                                            <img :src="imgUrl"  style="max-width: 250px; mas-heigth: 250px" v-else>
                                         </div>
                                 </div>
                             </div>
@@ -339,6 +341,14 @@ export default {
                 })
                                                                 
             })
+            if(this.$route.params.idHero)
+            {
+                let data = {idHero: this.$route.params.idHero}
+                this.$store.dispatch('hero/setHero', data)
+                this.idHero = this.$route.params.idHero
+
+            }
+            // console.log(this.hero)
         },
         multipleTagRole (newTag) {
             const tag = {
@@ -349,7 +359,13 @@ export default {
         },
         getPict(files)
         {
-            console.log(files);            
+            console.log(files);       
+            
+            if(this.$route.params.idHero)
+            {
+                this.hero.old_photo = this.hero.photo
+            }
+            
             this.hero.photo = files[0];
             this.hero.photo_name = files[0].name
             this.imgUrl = URL.createObjectURL(files[0]);    
@@ -369,7 +385,13 @@ export default {
             parent = this            
             let data = new FormData()
             var hero = this.hero
-            
+
+            if(this.$route.params.idHero)
+            {
+                data.append('_id', this.$route.params.idHero)
+                data.append('old_photo', hero.old_photo)
+            }
+
             data.append('name', hero.name)
             data.append('alias', hero.alias)
             data.append('photo', hero.photo)
@@ -383,6 +405,7 @@ export default {
             data.append('difficulty', hero.difficulty)
             data.append('attributes[move_speed]', hero.attributes.move_speed)
             data.append('attributes[att_speed]', hero.attributes.att_speed)
+            data.append('attributes[ability_crit_rate]', hero.attributes.ability_crit_rate)
             data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate)
             data.append('attributes[physical_att]', hero.attributes.physical_att)
             data.append('attributes[physical_deff]', hero.attributes.physical_deff)
@@ -395,15 +418,29 @@ export default {
             
             console.log(data);
 
-            this.$store.dispatch('hero/insertHero', data).then((response)=>{                
+            if(this.$route.params.idHero){
+
+                this.$store.dispatch('hero/updateHero', data).then((response)=>{      
+                    if(response)
+                    {
+                        alert('Hero telah diupdate')
+                        parent.$router.push('/hero')
+                    }
+                })
+
+            }
+            else{
+                this.$store.dispatch('hero/insertHero', data).then((response)=>{                
               
-              if(response)
-              {
-                  alert('Hero baru telah ditambahkan')
-                  parent.$router.push('/hero')
-              }
-                                                                
-            })
+                    if(response)
+                    {
+                        alert('Hero baru telah ditambahkan')
+                        parent.$router.push('/hero')
+                    }
+                                                                    
+                })
+            }
+            
         }
        
     },
@@ -413,7 +450,8 @@ export default {
             imgName: 'Search Here',
             slider: 90,
             roleOption: [],
-            specialityOption: []
+            specialityOption: [],
+            idHero : null
         }
     }
 }

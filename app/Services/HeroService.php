@@ -29,10 +29,12 @@ class HeroService
         return $heros;
     }
 
-    public function getOne($idRole)
+    public function getOne($idHero)
     {
-        $filter = ['_id' => $idRole ];
-        return $this->repo->getOne($filter);
+        $filter = ['_id' => $idHero ];
+        $hero =  $this->repo->getOne($filter);
+             
+        return $hero;
     }
 
     public function insert($att)
@@ -51,16 +53,33 @@ class HeroService
     }
 
     public function update($att)
-    {
+    {        
+
+        if( is_object($att['photo']) )
+        {
+            $image = $att['photo'];
+            $fileName = date('YmdHis').$image->getClientOriginalName();
+            $path = 'image/'.$fileName;
+            $image->move('image', $fileName);
+            $att['photo'] = $path;
+
+            unlink(public_path($att['old_photo']));
+            unset($att['old_photo']);
+        }
         $update = $this->repo->save($att);
+
         return $update;
     }
 
-    public function delete($idRole)
+    public function delete($idHero)
     {
-        $delete = $this->repo->delete($idRole);
-        // print_r($delete);
-        return 'Role berhasil dihapus';
+        $hero = $this->getOne($idHero);
+        print_r($hero);
+        unlink(public_path($hero['photo']));
+
+        $delete = $this->repo->delete($idHero);
+        
+        return 'Hero berhasil dihapus';
     }
   
 

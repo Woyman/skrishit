@@ -2265,6 +2265,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 // import RoleForm from './FormRoleComponent'
 
 
@@ -2399,6 +2401,15 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
           parent.specialityOption.push(res.speciality_name);
         });
       });
+
+      if (this.$route.params.idHero) {
+        var data = {
+          idHero: this.$route.params.idHero
+        };
+        this.$store.dispatch('hero/setHero', data);
+        this.idHero = this.$route.params.idHero;
+      } // console.log(this.hero)
+
     },
     multipleTagRole: function multipleTagRole(newTag) {
       var tag = {
@@ -2409,6 +2420,11 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
     },
     getPict: function getPict(files) {
       console.log(files);
+
+      if (this.$route.params.idHero) {
+        this.hero.old_photo = this.hero.photo;
+      }
+
       this.hero.photo = files[0];
       this.hero.photo_name = files[0].name;
       this.imgUrl = URL.createObjectURL(files[0]); // this.imgName = file.name            
@@ -2425,6 +2441,12 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       parent = this;
       var data = new FormData();
       var hero = this.hero;
+
+      if (this.$route.params.idHero) {
+        data.append('_id', this.$route.params.idHero);
+        data.append('old_photo', hero.old_photo);
+      }
+
       data.append('name', hero.name);
       data.append('alias', hero.alias);
       data.append('photo', hero.photo);
@@ -2440,6 +2462,7 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       data.append('difficulty', hero.difficulty);
       data.append('attributes[move_speed]', hero.attributes.move_speed);
       data.append('attributes[att_speed]', hero.attributes.att_speed);
+      data.append('attributes[ability_crit_rate]', hero.attributes.ability_crit_rate);
       data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate);
       data.append('attributes[physical_att]', hero.attributes.physical_att);
       data.append('attributes[physical_deff]', hero.attributes.physical_deff);
@@ -2450,12 +2473,22 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       data.append('attributes[mana]', hero.attributes.mana);
       data.append('attributes[mana_regen]', hero.attributes.mana_regen);
       console.log(data);
-      this.$store.dispatch('hero/insertHero', data).then(function (response) {
-        if (response) {
-          alert('Hero baru telah ditambahkan');
-          parent.$router.push('/hero');
-        }
-      });
+
+      if (this.$route.params.idHero) {
+        this.$store.dispatch('hero/updateHero', data).then(function (response) {
+          if (response) {
+            alert('Hero telah diupdate');
+            parent.$router.push('/hero');
+          }
+        });
+      } else {
+        this.$store.dispatch('hero/insertHero', data).then(function (response) {
+          if (response) {
+            alert('Hero baru telah ditambahkan');
+            parent.$router.push('/hero');
+          }
+        });
+      }
     }
   },
   data: function data() {
@@ -2464,7 +2497,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       imgName: 'Search Here',
       slider: 90,
       roleOption: [],
-      specialityOption: []
+      specialityOption: [],
+      idHero: null
     };
   }
 });
@@ -2481,8 +2515,110 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _globalComponent_ModalComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../globalComponent/ModalComponent */ "./resources/js/components/globalComponent/ModalComponent.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
+/* harmony import */ var vue_range_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-range-component */ "./node_modules/vue-range-component/dist/vue-range-slider.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2551,21 +2687,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["createHelpers"])({
-  getterType: 'role/getField',
-  mutationType: 'role/UPDATE_FIELD'
+
+var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["createHelpers"])({
+  getterType: 'hero/getField',
+  mutationType: 'hero/UPDATE_FIELD'
 }),
     mapFields = _createHelpers.mapFields;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    'modal': _globalComponent_ModalComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'modal': _globalComponent_ModalComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'vue-range': vue_range_component__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: {
+  computed: _objectSpread({
     pageTitle: function pageTitle() {
       return this.$route.meta.title;
     }
-  },
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])({
+    hero: 'hero/getHero'
+  })),
   created: function created() {
     this.init();
   },
@@ -2577,69 +2717,39 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
         _this.heros = response;
       });
     },
-    checkRole_name: function checkRole_name() {
-      // console.log(this.role_name)
-      if (this.role_name == '') {
-        this.required = true;
-        return false;
-      } else {
-        this.required = false;
-        return true;
-      }
+    getDetail: function getDetail(idHero) {
+      console.log(idHero);
+      var parent = this;
+      var data = {
+        'idHero': idHero
+      };
+      this.$store.dispatch('hero/getOneHero', data).then(function (response) {
+        parent.detail = response;
+        parent.toogleModalDetail();
+      });
     },
-    deleteRole: function deleteRole(idRole) {
-      var _this2 = this;
-
-      if (confirm("Anda yakin ingin menghapus Role ini? ")) {
-        var data = {
-          'idRole': idRole
-        };
-        this.$store.dispatch('role/deleteRole', data).then(function (response) {
-          _this2.init();
-        });
-      }
-    },
-    toogleModal: function toogleModal() {
+    toogleModalDetail: function toogleModalDetail() {
       this.show_modal = !this.show_modal;
     },
-    toogleModalEdit: function toogleModalEdit(idRole) {
-      var _this3 = this;
+    editHero: function editHero(idHero) {
+      this.$router.push({
+        name: 'admin.hero.edit',
+        params: {
+          idHero: idHero
+        }
+      });
+    },
+    deleteHero: function deleteHero(idHero) {
+      var _this2 = this;
 
-      this.role_edit = {};
+      console.log(idHero);
 
-      if (this.show_modal_edit == false) {
+      if (confirm("Anda yakin ingin menghapus Hero ini? ")) {
         var data = {
-          'idRole': idRole
+          'idHero': idHero
         };
-        this.$store.dispatch('role/getOneRole', data).then(function (response) {
-          _this3.role_edit = response;
-          _this3.show_modal_edit = !_this3.show_modal_edit;
-        });
-      } else {
-        this.show_modal_edit = !this.show_modal_edit;
-      }
-    },
-    checkEditRole_name: function checkEditRole_name() {
-      // console.log(this.role_name)
-      if (this.role_edit.role_name == '') {
-        this.required = true;
-        return false;
-      } else {
-        this.required = false;
-        return true;
-      }
-    },
-    updateRole: function updateRole() {
-      var _this4 = this;
-
-      if (this.checkEditRole_name()) {
-        var data = this.role_edit;
-        this.$store.dispatch('role/updateRole', data).then(function (response) {
-          if (response) {
-            _this4.toogleModalEdit();
-
-            _this4.init();
-          }
+        this.$store.dispatch('hero/deleteHero', data).then(function (response) {
+          _this2.init();
         });
       }
     }
@@ -2650,7 +2760,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
       role_name: '',
       required: false,
       role_edit: {},
-      heros: []
+      heros: [],
+      detail: null
     };
   }
 });
@@ -7823,6 +7934,12 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
+                    _vm.idHero
+                      ? _c("small", { staticStyle: { "font-size": "70%" } }, [
+                          _vm._v("Pilih untuk mengganti gambar sebelumnya")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
                     _vm.errors.photo !== null
                       ? _c(
                           "div",
@@ -7838,15 +7955,21 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "col-6" }, [
                   _c("div", { staticClass: "pict_hero_here" }, [
-                    _vm.imgUrl
+                    _vm.idHero && _vm.imgUrl == null
                       ? _c("img", {
+                          staticStyle: {
+                            "max-width": "250px",
+                            "mas-heigth": "250px"
+                          },
+                          attrs: { src: "../../" + _vm.hero.photo }
+                        })
+                      : _c("img", {
                           staticStyle: {
                             "max-width": "250px",
                             "mas-heigth": "250px"
                           },
                           attrs: { src: _vm.imgUrl }
                         })
-                      : _vm._e()
                   ])
                 ])
               ]),
@@ -8531,7 +8654,46 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(hero.speciality))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v("DETAIL | EDIT | DELETE")])
+                      _c("td", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.getDetail(hero._id)
+                              }
+                            }
+                          },
+                          [_vm._v("Detail ")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.editHero(hero._id)
+                              }
+                            }
+                          },
+                          [_vm._v("Edit ")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteHero(hero._id)
+                              }
+                            }
+                          },
+                          [_vm._v("Delete ")]
+                        )
+                      ])
                     ])
                   }),
                   0
@@ -8543,7 +8705,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.show_modal
-        ? _c("modal", { attrs: { width: 50, custom_header: true } }, [
+        ? _c("modal", { attrs: { width: 80, custom_header: true } }, [
             _c(
               "div",
               {
@@ -8563,7 +8725,7 @@ var render = function() {
                   {
                     staticClass: "close float-right",
                     attrs: { type: "button", "aria-label": "Close" },
-                    on: { click: _vm.toogleModal }
+                    on: { click: _vm.toogleModalDetail }
                   },
                   [
                     _c("span", { attrs: { "aria-hidden": "true" } }, [
@@ -8575,49 +8737,258 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("div", { attrs: { slot: "body" }, slot: "body" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "roleName" } }, [
-                  _vm._v("Nama Role")
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-4" }, [
+                  _c("img", {
+                    staticClass: "img-thumbnail",
+                    attrs: { src: _vm.detail.photo, alt: "gambar herp" }
+                  })
                 ]),
                 _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.role_name,
-                      expression: "role_name"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", id: "roleName" },
-                  domProps: { value: _vm.role_name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.role_name = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm.required
-                  ? _c("small", { staticClass: "text-danger" }, [
-                      _vm._v("Nama Role is required.")
+                _c("div", { staticClass: "col-8" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-8" }, [
+                      _c("h4", [_c("b", [_vm._v(_vm._s(_vm.detail.name))])]),
+                      _vm._v(" "),
+                      _c("h6", [_c("b", [_vm._v(_vm._s(_vm.detail.alias))])]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "mb-1" }, [
+                        _vm._v("Role: " + _vm._s(_vm.detail.role))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "mb-1" }, [
+                        _vm._v("Speciality: " + _vm._s(_vm.detail.speciality))
+                      ])
                     ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "submit" },
-                  on: { click: _vm.insertRole }
-                },
-                [_vm._v("Submit")]
-              )
+                  ]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-12" }, [
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", { attrs: { for: "diff_hero" } }, [
+                            _vm._v("Difficulty")
+                          ]),
+                          _vm._v(" "),
+                          _c("vue-range", {
+                            ref: "slider",
+                            attrs: {
+                              tooltip: "always",
+                              disabled: "true",
+                              id: "diff_hero"
+                            },
+                            model: {
+                              value: _vm.detail.difficulty,
+                              callback: function($$v) {
+                                _vm.$set(_vm.detail, "difficulty", $$v)
+                              },
+                              expression: "detail.difficulty"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", [_vm._v("Offense")]),
+                          _vm._v(" "),
+                          _c("vue-range", {
+                            ref: "slider",
+                            attrs: { tooltip: "always", disabled: "true" },
+                            model: {
+                              value: _vm.detail.offense,
+                              callback: function($$v) {
+                                _vm.$set(_vm.detail, "offense", $$v)
+                              },
+                              expression: "detail.offense"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", [_vm._v("Skill Effect")]),
+                          _vm._v(" "),
+                          _c("vue-range", {
+                            ref: "slider",
+                            attrs: { tooltip: "always", disabled: "true" },
+                            model: {
+                              value: _vm.detail.skill_effect,
+                              callback: function($$v) {
+                                _vm.$set(_vm.detail, "skill_effect", $$v)
+                              },
+                              expression: "detail.skill_effect"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", [_vm._v("Difficulty")]),
+                          _vm._v(" "),
+                          _c("vue-range", {
+                            ref: "slider",
+                            attrs: { tooltip: "always", disabled: "true" },
+                            model: {
+                              value: _vm.detail.difficulty,
+                              callback: function($$v) {
+                                _vm.$set(_vm.detail, "difficulty", $$v)
+                              },
+                              expression: "detail.difficulty"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12" }, [
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("h4", [_vm._v("Attributes")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Movement Speed")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.move_speed))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Attack Speed")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.att_speed))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Base Att Crit Rate")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(
+                            _vm._s(_vm.detail.attributes.base_att_crit_rate)
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Ability Crit Rate")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(
+                            _vm._s(_vm.detail.attributes.ability_crit_rate)
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Physical Attack")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.physical_att))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Physical Deffendse")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.physical_deff))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [_vm._v("Hp")]),
+                        _vm._v(" "),
+                        _c("div", [_vm._v(_vm._s(_vm.detail.attributes.hp))])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Hp Regen")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.hp_regen))
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-4" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Magic Power")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.magic_power))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Magic Deffendse")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.magic_deff))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [_vm._v("Mana")]),
+                        _vm._v(" "),
+                        _c("div", [_vm._v(_vm._s(_vm.detail.attributes.mana))])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { staticClass: "mb-0" }, [
+                          _vm._v("Mana Regen")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _vm._v(_vm._s(_vm.detail.attributes.mana_regen))
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ])
             ])
           ])
         : _vm._e()
@@ -28338,7 +28709,16 @@ __webpack_require__.r(__webpack_exports__);
   meta: {
     name: 'Add New Hero',
     title: 'Add New Hero',
-    menuParent: 'speciality'
+    menuParent: 'hero'
+  },
+  component: _components_hero_HeroFormComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+}, {
+  path: '/hero/edit/:idHero',
+  name: 'admin.hero.edit',
+  meta: {
+    name: 'Edit Hero',
+    title: 'Edit Hero',
+    menuParent: 'hero'
   },
   component: _components_hero_HeroFormComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
 }]);
@@ -28383,16 +28763,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*!****************************************************!*\
   !*** ./resources/js/store/modules/hero/actions.js ***!
   \****************************************************/
-/*! exports provided: getAllHero, getOneSpeciality, insertHero, deleteSpeciality, updateSpeciality */
+/*! exports provided: getAllHero, getOneHero, setHero, insertHero, deleteHero, updateHero */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllHero", function() { return getAllHero; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOneSpeciality", function() { return getOneSpeciality; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOneHero", function() { return getOneHero; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setHero", function() { return setHero; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertHero", function() { return insertHero; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteSpeciality", function() { return deleteSpeciality; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateSpeciality", function() { return updateSpeciality; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteHero", function() { return deleteHero; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHero", function() { return updateHero; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -28433,22 +28814,28 @@ var getAllHero = /*#__PURE__*/function () {
   };
 }();
 
-var getOneSpeciality = /*#__PURE__*/function () {
+var getOneHero = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(context, payload) {
-    var url, response;
+    var url, response, hero, role, speciality;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            url = '/api/speciality/' + payload.idSpeciality;
+            url = '/api/hero/' + payload.idHero;
             _context2.next = 3;
             return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
 
           case 3:
             response = _context2.sent;
-            return _context2.abrupt("return", response.data.data);
+            // console.log(response)  
+            hero = response.data.data;
+            role = hero.role;
+            speciality = hero.speciality;
+            hero.role = role.join(', ');
+            hero.speciality = speciality.join(', ');
+            return _context2.abrupt("return", hero);
 
-          case 5:
+          case 10:
           case "end":
             return _context2.stop();
         }
@@ -28456,26 +28843,27 @@ var getOneSpeciality = /*#__PURE__*/function () {
     }, _callee2);
   }));
 
-  return function getOneSpeciality(_x2, _x3) {
+  return function getOneHero(_x2, _x3) {
     return _ref2.apply(this, arguments);
   };
 }();
 
-var insertHero = /*#__PURE__*/function () {
+var setHero = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(context, payload) {
     var url, response;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            url = '/api/hero'; // console.log(payload)  
-
+            url = '/api/hero/' + payload.idHero;
             _context3.next = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, payload);
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
 
           case 3:
             response = _context3.sent;
-            return _context3.abrupt("return", response.data.data);
+            // console.log(response)  
+            // return response.data.data  
+            context.commit('SET_HERO', response.data.data);
 
           case 5:
           case "end":
@@ -28485,23 +28873,22 @@ var insertHero = /*#__PURE__*/function () {
     }, _callee3);
   }));
 
-  return function insertHero(_x4, _x5) {
+  return function setHero(_x4, _x5) {
     return _ref3.apply(this, arguments);
   };
 }();
 
-var deleteSpeciality = /*#__PURE__*/function () {
+var insertHero = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(context, payload) {
     var url, response;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            // console.log(payload)  
-            url = '/api/speciality/delete/' + payload.idSpeciality; // console.log(url)  
+            url = '/api/hero'; // console.log(payload)  
 
             _context4.next = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, payload);
 
           case 3:
             response = _context4.sent;
@@ -28515,32 +28902,28 @@ var deleteSpeciality = /*#__PURE__*/function () {
     }, _callee4);
   }));
 
-  return function deleteSpeciality(_x6, _x7) {
+  return function insertHero(_x6, _x7) {
     return _ref4.apply(this, arguments);
   };
 }();
 
-var updateSpeciality = /*#__PURE__*/function () {
+var deleteHero = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(context, payload) {
-    var url, data, response;
+    var url, response;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            url = '/api/speciality/update'; // console.log(payload)  
+            url = '/api/hero/delete/' + payload.idHero; // console.log(url)  
 
-            data = {
-              '_id': payload._id,
-              'speciality_name': payload.speciality_name
-            };
-            _context5.next = 4;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, data);
+            _context5.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
 
-          case 4:
+          case 3:
             response = _context5.sent;
             return _context5.abrupt("return", response.data.data);
 
-          case 6:
+          case 5:
           case "end":
             return _context5.stop();
         }
@@ -28548,8 +28931,37 @@ var updateSpeciality = /*#__PURE__*/function () {
     }, _callee5);
   }));
 
-  return function updateSpeciality(_x8, _x9) {
+  return function deleteHero(_x8, _x9) {
     return _ref5.apply(this, arguments);
+  };
+}();
+
+var updateHero = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(context, payload) {
+    var url, response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            url = '/api/hero/update'; // console.log(payload)  
+
+            _context6.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, payload);
+
+          case 3:
+            response = _context6.sent;
+            return _context6.abrupt("return", response.data.data);
+
+          case 5:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6);
+  }));
+
+  return function updateHero(_x10, _x11) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
@@ -28662,11 +29074,13 @@ var namespaced = true;
 /*!******************************************************!*\
   !*** ./resources/js/store/modules/hero/mutations.js ***!
   \******************************************************/
-/*! exports provided: UPDATE_FIELD */
+/*! exports provided: RESET_HERO, SET_HERO, UPDATE_FIELD */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_HERO", function() { return RESET_HERO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_HERO", function() { return SET_HERO; });
 /* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_FIELD", function() { return vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__["updateField"]; });
 
@@ -28674,6 +29088,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../config/helpers.js */ "./resources/js/config/helpers.js");
 
 
+
+
+var RESET_HERO = function RESET_HERO(state, payload) {
+  state.hero = Object.assign({}, _const__WEBPACK_IMPORTED_MODULE_1__["default_state"].hero);
+};
+
+var SET_HERO = function SET_HERO(state, payload) {
+  state.hero = payload; // console.log(state.hero)
+};
 
 
 

@@ -23,16 +23,16 @@ class HeroController
     {
         $data = $this->service->getAll();
         return response()->json(
-            UtilHelper::makeResponse('List Speciality', $data),
+            UtilHelper::makeResponse('List Hero', $data),
             200
         );
     }
 
-    public function getOne($idSpeciality)
+    public function getOne($idHero)
     {
-        $data = $this->service->getOne($idSpeciality);
+        $data = $this->service->getOne($idHero);
         return response()->json(
-            UtilHelper::makeResponse('Get One Speciality', $data),
+            UtilHelper::makeResponse('Get One Hero', $data),
             200
         );
     }
@@ -50,22 +50,22 @@ class HeroController
 
     public function update(Request $req)
     {
-        $att = $req->validate(['speciality_name' => 'required|string', '_id' => 'required|string' ]);
+        $att = $req->all();    
         // print_r($att);
         $data = $this->service->update($att);
 
         return response()->json(
-            UtilHelper::makeResponse('Update Speciality', $data),
+            UtilHelper::makeResponse('Update Hero', $data),
             200
         );
     }
 
-    public function delete($idSpeciality)
+    public function delete($idHero)
     {                
-        $data = $this->service->delete($idSpeciality);
+        $data = $this->service->delete($idHero);
 
         return response()->json(
-            UtilHelper::makeResponse('Delete Speciality', $data),
+            UtilHelper::makeResponse('Delete Hero', $data),
             200
         );
     }

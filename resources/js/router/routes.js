@@ -54,7 +54,17 @@ export default [
         meta : { 
                  name : 'Add New Hero',                                   
                  title : 'Add New Hero',    
-                 menuParent: 'speciality'                                
+                 menuParent: 'hero'                                
+               },
+    component : AddHero,  
+  },   
+  {
+		path : '/hero/edit/:idHero',
+		name : 'admin.hero.edit',
+        meta : { 
+                 name : 'Edit Hero',                                   
+                 title : 'Edit Hero',    
+                 menuParent: 'hero'                                
                },
     component : AddHero,  
   },   
