@@ -39,8 +39,9 @@ const updateKriteria = async (context, payload) => {
     let url = '/api/kriteria/update'          
     // console.log(payload)  
     let data = {
-        '_id': payload._id,
-        'kriteria_name' : payload.kriteria_name
+        '_id': payload._id, 
+        'kriteria_name' : payload.kriteria_name,
+        'kriteria_field' : payload.kriteria_field
     }
     let response = await Axios.post(url, data)
 

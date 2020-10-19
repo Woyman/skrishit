@@ -42,3 +42,6 @@ Route::get('/kriteria/delete/{idHero}', 'Api\KriteriaController@delete');
 Route::get('/kriteria/{idHero}', 'Api\KriteriaController@getOne'); 
 Route::post('/kriteria', 'Api\KriteriaController@insert'); 
 Route::post('/kriteria/update', 'Api\KriteriaController@update'); 
+
+Route::post('/electre', 'Api\ElectreController@index'); 
+

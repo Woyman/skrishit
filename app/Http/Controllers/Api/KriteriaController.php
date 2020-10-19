@@ -39,7 +39,8 @@ class KriteriaController
 
     public function insert(Request $req)
     {
-        $att = $req->validate(['kriteria_name' => 'required|string']);
+        $att = $req->validate(['kriteria_name' => 'required|string',
+                               'kriteria_field' => 'required|string']);
         // print_r($att);
         $data = $this->service->insert($att);
 
@@ -51,7 +52,9 @@ class KriteriaController
 
     public function update(Request $req)
     {
-        $att = $req->validate(['kriteria_name' => 'required|string', '_id' => 'required|string' ]);
+        $att = $req->validate(['kriteria_name' => 'required|string', 
+                               '_id' => 'required|string',
+                               'kriteria_field' => 'required|string'] );
         // print_r($att);
         $data = $this->service->update($att);
 

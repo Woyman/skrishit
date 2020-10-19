@@ -330,6 +330,7 @@ export default {
             this.$store.dispatch('role/getAllRole').then((response)=>{             
                 
                 response.forEach(function(res, index){
+                    
                     parent.roleOption.push(res.role_name)                    
                 })
                                                 

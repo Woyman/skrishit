@@ -17,13 +17,15 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Kriteria</th>
+                                    <th scope="col">Field</th>
                                     <th scope="col">Action</th>                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(role, index) in roles" :key="index" >
                                     <th scope="row">{{ index+1 }}</th>
-                                    <td>{{ role.kriteria_name }}</td>                                    
+                                    <td>{{ role.kriteria_name }}</td>         
+                                    <td>{{ role.kriteria_field }}</td>                                    
                                     <td> <button class="btn btn-info btn-sm" @click="toogleModalEdit(role._id)"><i class="fa fa-edit text-white"></i> Edit</button> | 
                                          <button class="btn btn-outline-danger btn-sm" @click="deleteRole(role._id)"><i class="fa fa-times"></i> Delete</button></td>
                                 </tr>                                
@@ -50,6 +52,11 @@
                     <input type="text" class="form-control" id="roleName" v-model="kriteria_name">
                     <small class="text-danger" v-if="required" >Nama Kriteria is required.</small>                    
                 </div>   
+                <div class="form-group">
+                    <label for="field_kriteria">Field</label>
+                    <input type="text" class="form-control" id="field_kriteria" v-model="kriteria_field">
+                    <small class="text-danger" v-if="required_field" >Kriteria Field is required.</small>                    
+                </div>   
                 <button type="submit" class="btn btn-primary" @click="insertKriteria">Submit</button>
             </div>            
         </modal>
@@ -65,9 +72,14 @@
             </div>                
             <div slot="body">
                 <div class="form-group">
-                    <label for="roleName">Nama Role</label>
-                    <input type="text" class="form-control" id="roleName" v-model="role_edit.kriteria_name">
+                    <label for="editKriteria">Nama Kriteria</label>
+                    <input type="text" class="form-control" id="editKriteria" v-model="role_edit.kriteria_name">
                     <small class="text-danger" v-if="required" >Nama Kriteria is required.</small>                    
+                </div>   
+                <div class="form-group">
+                    <label for="editFieldKriteria">Field</label>
+                    <input type="text" class="form-control" id="editFieldKriteria" v-model="role_edit.kriteria_field">
+                    <small class="text-danger" v-if="required_field" >Field Kriteria is required.</small>                    
                 </div>   
                 <button type="submit" class="btn btn-primary" @click="updateRole">Submit</button>
             </div>            
@@ -114,11 +126,13 @@ export default {
 
             if(this.checkkriteria_name())
             {
-                let data = {'kriteria_name': this.kriteria_name}
+                let data = {'kriteria_name': this.kriteria_name, 
+                            'kriteria_field': this.kriteria_field}
                 this.$store.dispatch('kriteria/insertKriteria', data).then((response)=>{
                     if(response)
                     {   
                         this.kriteria_name = ''
+                        this.kriteria_field = ''
                         this.toogleModal()
                         this.init()
                     }
@@ -129,11 +143,27 @@ export default {
         },      
         checkkriteria_name(){
             // console.log(this.kriteria_name)
-            if(this.kriteria_name == '' )
+            if(this.kriteria_name == '' && this.kriteria_field == ''  )
             {
                 this.required = true
+                this.required_field = true
                 return false
-            }else{
+            }
+            else if(this.kriteria_name != '' && this.kriteria_field == ''  )
+            {   
+                this.required = false
+                this.required_field = true
+                return false
+            }
+            else if(this.kriteria_name == '' && this.kriteria_field != ''  )
+            {   
+                this.required = true
+                this.required_field = false
+                return false
+            }
+            else
+            {
+                this.required_field = false
                 this.required = false
                 return true
             }
@@ -169,11 +199,27 @@ export default {
         },
         checkEditkriteria_name(){
             // console.log(this.kriteria_name)
-            if(this.role_edit.kriteria_name == '' )
+            if(this.role_edit.kriteria_name == '' && this.role_edit.kriteria_field == '' )
             {
                 this.required = true
+                this.required_field = true
                 return false
-            }else{
+            }
+            else if(this.role_edit.kriteria_name != '' && this.role_edit.kriteria_field == '')
+            {   
+                this.required = false
+                this.required_field = true
+                return false
+            }
+            else if(this.role_edit.kriteria_name == '' && this.role_edit.kriteria_field != '')
+            {   
+                this.required = true
+                this.required_field = false
+                return false
+            }
+            else
+            {
+                this.required_field = false
                 this.required = false
                 return true
             }
@@ -197,8 +243,10 @@ export default {
     data(){
         return{
             show_modal: false,            
-            kriteria_name: '',           
+            kriteria_name: '',        
+            kriteria_field: '',   
             required: false,
+            required_field: false,
             show_modal_edit: false,
             kriteria_name_edit: '',
             role_edit: {},

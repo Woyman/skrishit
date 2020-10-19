@@ -4,6 +4,7 @@ import Speciality from '../components/speciality/SpecialityListComponent.vue'
 import Hero from '../components/hero/HeroListComponent.vue'
 import AddHero from '../components/hero/HeroFormComponent.vue'
 import Kriteria from '../components/kriteria/KriteriaListComponent.vue'
+import Electre from '../components/electre/ElectreFormComponent.vue'
     
 export default [
 
@@ -69,7 +70,6 @@ export default [
                },
     component : AddHero,  
   },   
-
   {
 		path : '/kriteria',
 		name : 'admin.kriteria',
@@ -79,6 +79,16 @@ export default [
                  menuParent: 'kriteria'                                
                },
     component : Kriteria,  
+  },   
+  {
+		path : '/electre',
+		name : 'admin.electre',
+        meta : { 
+                 name : 'Perhitungan Electre',                                   
+                 title : 'Perhitungan Electre',    
+                 menuParent: 'electre'                                
+               },
+    component : Electre,  
   },   
 
 ];    

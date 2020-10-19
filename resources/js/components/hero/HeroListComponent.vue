@@ -69,8 +69,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="diff_hero">Difficulty</label>
-                                    <vue-range ref="slider" v-model="detail.difficulty" tooltip="always" disabled="true" id="diff_hero"></vue-range>                                
+                                    <label for="diff_hero">Durability</label>
+                                    <vue-range ref="slider" v-model="detail.durability" tooltip="always" disabled="true" id="diff_hero"></vue-range>                                
                                 </div>   
                                 <div class="form-group">
                                     <label>Offense</label>

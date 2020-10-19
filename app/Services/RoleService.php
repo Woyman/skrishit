@@ -3,15 +3,19 @@
 namespace App\Services;
 
 use App\Repositories\RoleRepository;
+use App\Repositories\HeroRepository;
 use App\Utils\DateHelper;
 
 class RoleService
 {
     private $repo;
+    private $hero_repo;
 
-    public function __construct(RoleRepository $repo)
+    public function __construct(RoleRepository $repo,
+                                HeroRepository $hero_repo)
     {
         $this->repo = $repo;
+        $this->hero = $hero_repo;
     }
 
     public function getAll()
@@ -33,13 +37,19 @@ class RoleService
 
     public function update($att)
     {
-        $update = $this->repo->save($att);
+        $oldRole = $this->getOne($att['_id']);
+        $update = $this->repo->save($att);                
+
+        $this->hero->updateRole($oldRole['role_name'], $att['role_name']);
         return $update;
     }
 
     public function delete($idRole)
     {
+        $oldRole = $this->getOne($idRole);
         $delete = $this->repo->delete($idRole);
+
+        $this->hero->updateRole($oldRole['role_name']);
         // print_r($delete);
         return 'Role berhasil dihapus';
     }
