@@ -5,9 +5,8 @@ const sendBobot = async (context, payload) => {
 
     console.log(payload)
     let response = await Axios.post(url, payload)
-    
-    console.log(response)
-    // return response.data.data       
+        
+    return response.data.data       
 }
 
 

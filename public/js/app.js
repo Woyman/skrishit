@@ -1994,8 +1994,49 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_range_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-range-component */ "./node_modules/vue-range-component/dist/vue-range-slider.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2028,7 +2069,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["createHelpers"])({
+
+var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["createHelpers"])({
   getterType: 'role/getField',
   mutationType: 'role/UPDATE_FIELD'
 }),
@@ -2036,6 +2078,7 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
+    'multiselect': vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default.a,
     'vue-range': vue_range_component__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   computed: {
@@ -2043,32 +2086,78 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
       return this.$route.meta.title;
     }
   },
+  befordCreated: function befordCreated() {},
   created: function created() {
     this.init();
   },
   methods: {
     init: function init() {
-      parent = this;
+      var _this = this;
+
+      var bobot = {};
+      var parent = this;
       this.$store.dispatch('kriteria/getAllKriteria').then(function (response) {
         parent.kriterias = response;
         parent.kriterias.forEach(function (k) {
           var field = k.kriteria_field;
           parent.w[field] = 50;
+          bobot[field] = 50;
+        });
+
+        _this.$store.dispatch('electre/sendBobot', bobot).then(function (response) {
+          parent.matrixX = response.matrix_X;
+          parent.bobot_preferensi = response.bobot_preferensi; // console.log(parent.matrixX)
+        });
+      });
+      this.$store.dispatch('role/getAllRole').then(function (response) {
+        response.forEach(function (res, index) {
+          parent.roleOption.push(res.role_name);
+        });
+      });
+      this.$store.dispatch('speciality/getAllSpeciality').then(function (response) {
+        response.forEach(function (res, index) {
+          parent.specialityOption.push(res.speciality_name);
         });
       });
     },
-    submit: function submit() {
-      var data = this.w; // Object.keys(data).forEach( key => {                         
-      //         console.log(key, data[key])                     
-      // })
+    multipleTagRole: function multipleTagRole(newTag) {
+      var tag = {
+        name: newTag
+      };
+      this.options.push(tag);
+      this.value.push(tag);
+    },
+    getMatrixX: function getMatrixX() {
+      var bobot = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var parent = this;
+      var data = {};
+      console.log(bobot);
 
-      this.$store.dispatch('electre/sendBobot', data).then(function (response) {});
+      if (bobot) {
+        data = bobot;
+        this.$store.dispatch('electre/sendBobot', data).then(function (response) {
+          parent.matrixX = response.matrix_X;
+          parent.bobot_preferensi = response.bobot_preferensi; // console.log(parent.bobot_preferensi)
+        });
+      } else {
+        // data = this.w    
+        // console.log(this.w)   
+        this.$store.dispatch('electre/sendBobot', this.w).then(function (response) {
+          parent.matrixX = response.matrix_X;
+          parent.bobot_preferensi = response.bobot_preferensi; // console.log(parent.bobot_preferensi)
+        });
+      } // console.log(data)
+
     }
   },
   data: function data() {
     return {
       kriterias: null,
-      w: {}
+      bobot_preferensi: null,
+      matrixX: null,
+      w: {},
+      roleOption: [],
+      specialityOption: []
     };
   }
 });
@@ -8030,51 +8119,190 @@ var render = function() {
             _c(
               "div",
               { staticClass: "col-12" },
-              _vm._l(_vm.kriterias, function(kriteria, index) {
-                return _c(
+              [
+                _vm._l(_vm.kriterias, function(kriteria, index) {
+                  return _c(
+                    "div",
+                    { key: index, staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "roleName" } }, [
+                        _vm._v(_vm._s(kriteria.kriteria_name))
+                      ]),
+                      _vm._v(" "),
+                      _c("vue-range", {
+                        ref: "slider",
+                        refInFor: true,
+                        attrs: { tooltip: "always" },
+                        model: {
+                          value: _vm.w[kriteria.kriteria_field],
+                          callback: function($$v) {
+                            _vm.$set(_vm.w, kriteria.kriteria_field, $$v)
+                          },
+                          expression: "w[kriteria.kriteria_field]"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                }),
+                _vm._v(" "),
+                _c(
                   "div",
-                  { key: index, staticClass: "form-group" },
+                  { staticClass: "form-group" },
                   [
-                    _c("label", { attrs: { for: "roleName" } }, [
-                      _vm._v(_vm._s(kriteria.kriteria_name))
+                    _c("label", { attrs: { for: "role_hero" } }, [
+                      _vm._v("Role Hero")
                     ]),
                     _vm._v(" "),
-                    _c("vue-range", {
-                      ref: "slider",
-                      refInFor: true,
-                      attrs: { tooltip: "always" },
+                    _c("multiselect", {
+                      attrs: {
+                        options: _vm.roleOption,
+                        taggable: true,
+                        multiple: true,
+                        id: "role_hero"
+                      },
+                      on: {
+                        tag: _vm.multipleTagRole,
+                        input: function($event) {
+                          return _vm.getMatrixX()
+                        }
+                      },
                       model: {
-                        value: _vm.w[kriteria.kriteria_field],
+                        value: _vm.w["role"],
                         callback: function($$v) {
-                          _vm.$set(_vm.w, kriteria.kriteria_field, $$v)
+                          _vm.$set(_vm.w, "role", $$v)
                         },
-                        expression: "w[kriteria.kriteria_field]"
+                        expression: "w['role']"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group" },
+                  [
+                    _c("label", { attrs: { for: "speciality_hero" } }, [
+                      _vm._v("Speciality Hero")
+                    ]),
+                    _vm._v(" "),
+                    _c("multiselect", {
+                      attrs: {
+                        options: _vm.specialityOption,
+                        taggable: true,
+                        multiple: true,
+                        id: "speciality_hero"
+                      },
+                      on: {
+                        tag: _vm.multipleTagRole,
+                        input: function($event) {
+                          return _vm.getMatrixX()
+                        }
+                      },
+                      model: {
+                        value: _vm.w["speciality"],
+                        callback: function($$v) {
+                          _vm.$set(_vm.w, "speciality", $$v)
+                        },
+                        expression: "w['speciality']"
                       }
                     })
                   ],
                   1
                 )
-              }),
-              0
+              ],
+              2
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group mt-3" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary btn-sm",
-                on: { click: _vm.submit }
-              },
-              [_vm._v("Hitung")]
-            )
+          _vm._m(0)
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-7 col-xs-12 mt-3" }, [
+      _c("div", { staticClass: "card" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-12" }, [
+              _c("table", { staticClass: "table table-hover" }, [
+                _c(
+                  "thead",
+                  [
+                    _c("th", [_vm._v("#")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Nama Hero")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.bobot_preferensi, function(bobot, index) {
+                      return _c("th", { key: index }, [
+                        _vm._v(
+                          "\n                                        " +
+                            _vm._s(bobot.label) +
+                            "\n                                    "
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.matrixX, function(m, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(" " + _vm._s(m.data.nama) + " ")]),
+                        _vm._v(" "),
+                        _vm._l(m.nilai, function(nilai, idx) {
+                          return _c("td", { key: idx }, [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(nilai) +
+                                "\n                                        "
+                            )
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  }),
+                  0
+                )
+              ])
+            ])
           ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mt-3" }, [
+      _c("button", { staticClass: "btn btn-primary btn-sm" }, [
+        _vm._v("Hitung")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", [_vm._v("Matrix X")])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -29753,7 +29981,7 @@ var sendBobot = /*#__PURE__*/function () {
 
           case 4:
             response = _context.sent;
-            console.log(response); // return response.data.data       
+            return _context.abrupt("return", response.data.data);
 
           case 6:
           case "end":

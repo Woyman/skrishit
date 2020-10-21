@@ -25,11 +25,13 @@ class ElectreController
                     'durability' => 'required|numeric',
                     'offense' => 'required|numeric',
                     'skill_effect' => 'required|numeric',
-                    'difficulty' => 'required|numeric'
+                    'difficulty' => 'required|numeric', 
+                    'role' => 'array',
+                    'speciality' => 'array'
                 ]);
         // print_r($req->all());
 
-        $data = $this->service->index($att);
+        $data = $this->service->getmatrixX($att);
         return response()->json(
             UtilHelper::makeResponse('Hitung Electre', $data),
             200
