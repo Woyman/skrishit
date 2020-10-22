@@ -1,6 +1,6 @@
 const getDefaultState = () => {
-	return {
-			
+	return {		
+		matrix_x: null,
 	}
 }
 

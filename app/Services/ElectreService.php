@@ -22,8 +22,12 @@ class ElectreService
     {
         $bobot = $att['bobot_preferensi'];
         $matrix_X = $att['matrix_X'];
+        // print_r($matrix_X);        
+        $matrix_R = $this->matrixR($matrix_X, $bobot);
+
+        $electre['matrix_R'] = $matrix_R;
         
-        print_r($matrix_X);
+        return $electre;
     }
 
     public function getmatrixX($att)
@@ -122,9 +126,27 @@ class ElectreService
         return $matrix;
     }
 
-    private function matrixR()
+    private function matrixR($matrix_X, $bobot)
     {
+        $x = [];        
+        
+        foreach($bobot as $index=>$k)
+        {
+            $x[$index] = 0;
 
+            foreach($matrix_X as &$alt)
+            {
+                $x[$index] += pow($alt['nilai'][$index], 2);                
+            }   
+            $x[$index] = sqrt($x[$index]);
+
+            foreach($matrix_X as &$alt)
+            {
+                $alt['nilai'][$index] = ($alt['nilai'][$index]/$x[$index]);
+            }              
+        }
+        
+        return $matrix_X;
     }
     
   

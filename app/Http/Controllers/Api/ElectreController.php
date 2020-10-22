@@ -33,7 +33,7 @@ class ElectreController
 
         $data = $this->service->getmatrixX($att);
         return response()->json(
-            UtilHelper::makeResponse('Hitung Electre', $data),
+            UtilHelper::makeResponse('Hitung Matrix X ', $data),
             200
         );
     }

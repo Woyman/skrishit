@@ -5,6 +5,7 @@ import Hero from '../components/hero/HeroListComponent.vue'
 import AddHero from '../components/hero/HeroFormComponent.vue'
 import Kriteria from '../components/kriteria/KriteriaListComponent.vue'
 import Electre from '../components/electre/ElectreFormComponent.vue'
+import ResultElectre from '../components/electre/ResultElectreComponent.vue'
     
 export default [
 
@@ -90,5 +91,16 @@ export default [
                },
     component : Electre,  
   },   
+  {
+		path : '/electre/result',
+		name : 'admin.electre.restul',
+        meta : { 
+                 name : 'Hasil Perhitungan Electre',                                   
+                 title : 'Hasil Perhitungan Electre',    
+                 menuParent: 'electre'                                
+               },
+    component : ResultElectre,  
+  },   
+
 
 ];    

@@ -171,7 +171,10 @@ export default {
             }
 
             this.$store.dispatch('electre/submit', data).then((response)=>{
-
+                if(response)
+                {
+                    this.$router.push({path: 'electre/result' })
+                }
             })
 
         }

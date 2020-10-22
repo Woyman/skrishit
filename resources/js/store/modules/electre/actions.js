@@ -14,8 +14,10 @@ const submit = async (context, payload) => {
 
     // console.log(payload)
     let response = await Axios.post(url, payload)
-        
-    return response.data.data       
+    let result = response.data.data           
+
+    context.commit('SET_MATRIX_R', result.matrix_R)    
+    return result
 }
 
 
