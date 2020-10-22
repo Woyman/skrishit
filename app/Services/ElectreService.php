@@ -18,6 +18,14 @@ class ElectreService
         $this->hero = $hero_repo;
     }
 
+    public function index($att)
+    {
+        $bobot = $att['bobot_preferensi'];
+        $matrix_X = $att['matrix_X'];
+        
+        print_r($matrix_X);
+    }
+
     public function getmatrixX($att)
     {                
         $filter = [];

@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="form-group mt-3" >
-                            <button class="btn btn-primary btn-sm">Hitung</button>
+                            <button class="btn btn-primary btn-sm" @click="submit">Hitung</button>
                         </div>
                     </div>                    
                 </div>
@@ -143,27 +143,38 @@ export default {
         getMatrixX(bobot = null ){        
             let parent = this    
             let data = {}
-            console.log(bobot)
+            // console.log(bobot)
             if(bobot)
             {                
                 data = bobot 
                 this.$store.dispatch('electre/sendBobot', data).then((response)=>{
                     parent.matrixX = response.matrix_X
-                    parent.bobot_preferensi = response.bobot_preferensi
-                    // console.log(parent.bobot_preferensi)
+                    parent.bobot_preferensi = response.bobot_preferensi                    
                 })   
-            }else{
-                // data = this.w    
-                // console.log(this.w)   
+            }else{               
                 this.$store.dispatch('electre/sendBobot', this.w).then((response)=>{
                     parent.matrixX = response.matrix_X
-                    parent.bobot_preferensi = response.bobot_preferensi
-                    // console.log(parent.bobot_preferensi)
+                    parent.bobot_preferensi = response.bobot_preferensi                  
                 })    
-            }
-            // console.log(data)
+            }            
             
         },      
+        submit()
+        {
+            parent = this            
+            this.bobot_preferensi.forEach(function(res,index){
+                res.nilai = parent.w[res.field];
+            })  
+            let data = {
+                'bobot_preferensi' : this.bobot_preferensi,
+                'matrix_X' : this.matrixX
+            }
+
+            this.$store.dispatch('electre/submit', data).then((response)=>{
+
+            })
+
+        }
         
     },
     data(){

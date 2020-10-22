@@ -38,5 +38,19 @@ class ElectreController
         );
     }
 
+    public function hitungElectre(Request $req)
+    {        
+        $att = $req->validate([
+                    'bobot_preferensi' => 'required|array',
+                    'matrix_X' => 'required|array',                
+                ]);
+                        
+        $data = $this->service->index($att);
+        return response()->json(
+            UtilHelper::makeResponse('Hitung Electre', $data),
+            200
+        );
+    }
+
 
 }

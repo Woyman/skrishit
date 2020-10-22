@@ -2130,24 +2130,31 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["create
     getMatrixX: function getMatrixX() {
       var bobot = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
       var parent = this;
-      var data = {};
-      console.log(bobot);
+      var data = {}; // console.log(bobot)
 
       if (bobot) {
         data = bobot;
         this.$store.dispatch('electre/sendBobot', data).then(function (response) {
           parent.matrixX = response.matrix_X;
-          parent.bobot_preferensi = response.bobot_preferensi; // console.log(parent.bobot_preferensi)
+          parent.bobot_preferensi = response.bobot_preferensi;
         });
       } else {
-        // data = this.w    
-        // console.log(this.w)   
         this.$store.dispatch('electre/sendBobot', this.w).then(function (response) {
           parent.matrixX = response.matrix_X;
-          parent.bobot_preferensi = response.bobot_preferensi; // console.log(parent.bobot_preferensi)
+          parent.bobot_preferensi = response.bobot_preferensi;
         });
-      } // console.log(data)
-
+      }
+    },
+    submit: function submit() {
+      parent = this;
+      this.bobot_preferensi.forEach(function (res, index) {
+        res.nilai = parent.w[res.field];
+      });
+      var data = {
+        'bobot_preferensi': this.bobot_preferensi,
+        'matrix_X': this.matrixX
+      };
+      this.$store.dispatch('electre/submit', data).then(function (response) {});
     }
   },
   data: function data() {
@@ -8216,14 +8223,23 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(0)
+          _c("div", { staticClass: "form-group mt-3" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-sm",
+                on: { click: _vm.submit }
+              },
+              [_vm._v("Hitung")]
+            )
+          ])
         ])
       ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-7 col-xs-12 mt-3" }, [
       _c("div", { staticClass: "card" }, [
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "row" }, [
@@ -8284,16 +8300,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mt-3" }, [
-      _c("button", { staticClass: "btn btn-primary btn-sm" }, [
-        _vm._v("Hitung")
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -29949,12 +29955,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /*!*******************************************************!*\
   !*** ./resources/js/store/modules/electre/actions.js ***!
   \*******************************************************/
-/*! exports provided: sendBobot */
+/*! exports provided: sendBobot, submit */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendBobot", function() { return sendBobot; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "submit", function() { return submit; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -29974,16 +29981,16 @@ var sendBobot = /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            url = '/api/electre';
-            console.log(payload);
-            _context.next = 4;
+            url = '/api/electre'; // console.log(payload)
+
+            _context.next = 3;
             return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, payload);
 
-          case 4:
+          case 3:
             response = _context.sent;
             return _context.abrupt("return", response.data.data);
 
-          case 6:
+          case 5:
           case "end":
             return _context.stop();
         }
@@ -29993,6 +30000,35 @@ var sendBobot = /*#__PURE__*/function () {
 
   return function sendBobot(_x, _x2) {
     return _ref.apply(this, arguments);
+  };
+}();
+
+var submit = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(context, payload) {
+    var url, response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            url = '/api/hitung-electre'; // console.log(payload)
+
+            _context2.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, payload);
+
+          case 3:
+            response = _context2.sent;
+            return _context2.abrupt("return", response.data.data);
+
+          case 5:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function submit(_x3, _x4) {
+    return _ref2.apply(this, arguments);
   };
 }();
 

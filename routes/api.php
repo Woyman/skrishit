@@ -44,4 +44,5 @@ Route::post('/kriteria', 'Api\KriteriaController@insert');
 Route::post('/kriteria/update', 'Api\KriteriaController@update'); 
 
 Route::post('/electre', 'Api\ElectreController@index'); 
+Route::post('/hitung-electre', 'Api\ElectreController@hitungElectre'); 
 
