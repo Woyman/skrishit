@@ -2222,6 +2222,93 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2243,7 +2330,10 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["create
       return this.$route.meta.title;
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])({
-    matrix_x: 'electre/getMatrixX'
+    bobot: 'electre/getBobot',
+    matrix_x: 'electre/getMatrixX',
+    matrix_r: 'electre/getMatrixR',
+    matrix_v: 'electre/getMatrixV'
   })),
   befordCreated: function befordCreated() {},
   created: function created() {
@@ -2251,7 +2341,10 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["create
   },
   methods: {
     init: function init() {
+      console.log(this.bobot);
       console.log(this.matrix_x);
+      console.log(this.matrix_r);
+      console.log(this.matrix_v);
     }
   },
   data: function data() {
@@ -8423,13 +8516,214 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row col-12 justify-content-center" }, [
-    _c("div", { staticClass: "col-7 col-xs-12 mt-3 " }, [
+    _c("div", { staticClass: "col-7 col-md-8 col-xs-12 mt-3 " }, [
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("h4", [_vm._v(_vm._s(_vm.pageTitle))])
         ]),
         _vm._v(" "),
-        _vm._m(0)
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-12" }, [
+              _c("h4", [_vm._v(" Bobot Preferensi ")]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c("thead", [
+                  _c(
+                    "tr",
+                    _vm._l(_vm.bobot, function(b, index) {
+                      return _c("th", { key: index }, [
+                        _vm._v(
+                          "\n                                            " +
+                            _vm._s(b.label) +
+                            "\n                                        "
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ]),
+                _vm._v(" "),
+                _c("tbody", [
+                  _c(
+                    "tr",
+                    _vm._l(_vm.bobot, function(b, index) {
+                      return _c("td", { key: index }, [
+                        _vm._v(
+                          "\n                                            " +
+                            _vm._s(b.nilai) +
+                            "\n                                        "
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-12" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c("thead", [
+                  _c(
+                    "tr",
+                    [
+                      _c("th", [_vm._v("#")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.bobot, function(b, index) {
+                        return _c("th", { key: index }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(b.label) +
+                              "\n                                        "
+                          )
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.matrix_x, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _vm._l(matrix.nilai, function(n, idx) {
+                          return _c("td", { key: idx }, [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(n) +
+                                "\n                                        "
+                            )
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-12" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c("thead", [
+                  _c(
+                    "tr",
+                    [
+                      _c("th", [_vm._v("#")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.bobot, function(b, index) {
+                        return _c("th", { key: index }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(b.label) +
+                              "\n                                        "
+                          )
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.matrix_r, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _vm._l(matrix.nilai, function(n, idx) {
+                          return _c("td", { key: idx }, [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(n) +
+                                "\n                                        "
+                            )
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-12" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c("thead", [
+                  _c(
+                    "tr",
+                    [
+                      _c("th", [_vm._v("#")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.bobot, function(b, index) {
+                        return _c("th", { key: index }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(b.label) +
+                              "\n                                        "
+                          )
+                        ])
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.matrix_v, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _vm._l(matrix.nilai, function(n, idx) {
+                          return _c("td", { key: idx }, [
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(n) +
+                                "\n                                        "
+                            )
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ])
+          ])
+        ])
       ])
     ])
   ])
@@ -8439,9 +8733,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "row" }, [_c("div", { staticClass: "col-12" })])
-    ])
+    return _c("h4", [_c("b", [_vm._v(" Matrix X")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", [_c("b", [_vm._v(" Matrix R")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h4", [_c("b", [_vm._v(" Matrix V")])])
   }
 ]
 render._withStripped = true
@@ -30233,10 +30537,13 @@ var submit = /*#__PURE__*/function () {
           case 3:
             response = _context2.sent;
             result = response.data.data;
+            context.commit('SET_BOBOT', result.bobot_preferensi);
+            context.commit('SET_MATRIX_X', result.matrix_X);
             context.commit('SET_MATRIX_R', result.matrix_R);
+            context.commit('SET_MATRIX_V', result.matrix_V);
             return _context2.abrupt("return", result);
 
-          case 7:
+          case 10:
           case "end":
             return _context2.stop();
         }
@@ -30265,7 +30572,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default_state", function() { return default_state; });
 var getDefaultState = function getDefaultState() {
   return {
-    matrix_x: null
+    bobot_preferensi: null,
+    matrix_x: null,
+    matrix_r: null,
+    matrix_v: null
   };
 };
 
@@ -30278,19 +30588,34 @@ var default_state = getDefaultState();
 /*!*******************************************************!*\
   !*** ./resources/js/store/modules/electre/getters.js ***!
   \*******************************************************/
-/*! exports provided: getMatrixX, getField */
+/*! exports provided: getBobot, getMatrixX, getMatrixR, getMatrixV, getField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBobot", function() { return getBobot; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMatrixX", function() { return getMatrixX; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMatrixR", function() { return getMatrixR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMatrixV", function() { return getMatrixV; });
 /* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getField", function() { return vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__["getField"]; });
 
 
 
+var getBobot = function getBobot(state) {
+  return state.bobot_preferensi;
+};
+
 var getMatrixX = function getMatrixX(state) {
   return state.matrix_x;
+};
+
+var getMatrixR = function getMatrixR(state) {
+  return state.matrix_r;
+};
+
+var getMatrixV = function getMatrixV(state) {
+  return state.matrix_v;
 };
 
 
@@ -30329,12 +30654,15 @@ var namespaced = true;
 /*!*********************************************************!*\
   !*** ./resources/js/store/modules/electre/mutations.js ***!
   \*********************************************************/
-/*! exports provided: SET_MATRIX_R, UPDATE_FIELD */
+/*! exports provided: SET_BOBOT, SET_MATRIX_X, SET_MATRIX_R, SET_MATRIX_V, UPDATE_FIELD */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_BOBOT", function() { return SET_BOBOT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MATRIX_X", function() { return SET_MATRIX_X; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MATRIX_R", function() { return SET_MATRIX_R; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MATRIX_V", function() { return SET_MATRIX_V; });
 /* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_FIELD", function() { return vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__["updateField"]; });
 
@@ -30344,8 +30672,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var SET_MATRIX_R = function SET_MATRIX_R(state, payload) {
+var SET_BOBOT = function SET_BOBOT(state, payload) {
+  state.bobot_preferensi = payload;
+};
+
+var SET_MATRIX_X = function SET_MATRIX_X(state, payload) {
   state.matrix_x = payload;
+};
+
+var SET_MATRIX_R = function SET_MATRIX_R(state, payload) {
+  state.matrix_r = payload;
+};
+
+var SET_MATRIX_V = function SET_MATRIX_V(state, payload) {
+  state.matrix_v = payload;
 };
 
 

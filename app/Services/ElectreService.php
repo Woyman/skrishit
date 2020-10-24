@@ -22,12 +22,19 @@ class ElectreService
     {
         $bobot = $att['bobot_preferensi'];
         $matrix_X = $att['matrix_X'];
-        // print_r($matrix_X);        
-        $matrix_R = $this->matrixR($matrix_X, $bobot);
-
-        $electre['matrix_R'] = $matrix_R;
         
-        return $electre;
+        $matrix_R = $this->matrixR($matrix_X, $bobot);
+        $matrix_V = $this->matrixV($matrix_R, $bobot);
+        $cd_dd = $this->CD_DD($matrix_V, $bobot);
+
+        $electre['bobot_preferensi'] = $bobot;
+        $electre['matrix_X'] = $matrix_X;
+        $electre['matrix_R'] = $matrix_R;
+        $electre['matrix_V'] = $matrix_V;
+        $electre['CD_DD'] = $cd_dd;
+        
+        // print_r($electre);
+        // return $electre;
     }
 
     public function getmatrixX($att)
@@ -147,6 +154,111 @@ class ElectreService
         }
         
         return $matrix_X;
+    }
+
+    private function matrixV($matrix_R, $bobot)
+    {        
+        foreach($bobot as $index => $b)
+        {
+            foreach($matrix_R as $idx_matrix => &$matrix)
+            {
+                $matrix['nilai'][$index] = $matrix['nilai'][$index]*$b['nilai'];
+            }    
+        }
+                
+        return $matrix_R;
+    }
+
+    private function CD_DD($matrix_V, $bobot)
+    {
+        print_r($bobot);
+        // print_r($matrix_V);
+        $jmlAlt = count($matrix_V);
+        $CD_DD = [];
+
+        foreach($matrix_V as $index => $alt)
+        {
+            for($i = 0; $i<$jmlAlt; $i++)
+            {
+                if($i != $index)
+                {
+                    $cd = [];
+                    $dd = [];
+
+                    foreach($bobot as $idx_k => $kriteria)
+                    {
+                        $nilaiAlt = $alt['nilai'][$idx_k];
+                        $nilaiAlt2 = $matrix_V[$i]['nilai'][$idx_k];
+
+                        if($nilaiAlt >= $nilaiAlt2)
+                        {
+                            $cd[] = $idx_k;
+                        }else{
+                            $dd[] = $idx_k;
+                        }
+                    }
+
+                    $CD_DD[$index][$i]['cd'] = $cd;
+                    $CD_DD[$index][$i]['dd'] = $dd;
+                }
+                else
+                {
+                    $CD_DD[$index][$i] = 0;
+                }
+            }
+        }        
+
+        // hitung Concordance
+        foreach($CD_DD as $index=> &$arrayCd )
+        {                   
+            foreach($arrayCd as $idx_cd => &$array )
+            {                                                
+                if(is_array($array))
+                {
+                    $nilaiCD = 0;
+                    foreach($array['cd'] as $cd )
+                    {                        
+                        $nilaiCD = $nilaiCD + $bobot[$cd]['nilai'];
+                    }
+                    $array['nilaiCD'] = $nilaiCD;
+                }
+
+            }   
+                                   
+        }        
+
+        //hitung diconcordance
+        foreach($CD_DD as $index=> &$arrayCd )
+        {   
+            foreach($arrayCd as $idx_cd => &$array )
+            {
+                if(is_array($array))
+                {
+                    $array_atas = [];
+                    foreach($array['dd'] as $dd )
+                    {
+                        $array_atas[] = abs($matrix_V[$index]['nilai'][$dd] - $matrix_V[$idx_cd]['nilai'][$dd]);
+                    }
+
+                    $array_bawah = [];
+                    foreach($matrix_V[$index]['nilai'] as $idx_alt => $value )
+                    {
+                        $array_bawah[] = abs($matrix_V[$index]['nilai'][$idx_alt] - $matrix_V[$idx_cd]['nilai'][$idx_alt]);
+                    }
+                                        
+                    if(empty($array_atas))  $array_atas = array(0);
+                    if(empty($array_bawah))  $array_bawah = array(0);
+
+                    // print_r($array_atas);                    
+                    // print_r($array_bawah);
+                    $array['nilaiDD'] = round(max($array_atas) / max($array_bawah), 4);
+                }        
+                           
+            }
+        }
+
+        print_r($CD_DD);
+        return $CD_DD;
     }
     
   
