@@ -26,15 +26,21 @@ class ElectreService
         $matrix_R = $this->matrixR($matrix_X, $bobot);
         $matrix_V = $this->matrixV($matrix_R, $bobot);
         $cd_dd = $this->CD_DD($matrix_V, $bobot);
+        $dominan_CCDD = $this->dominan_CDDD($cd_dd, count($matrix_X));
+        $aggregate_dominan = $this->aggregate_dominan($dominan_CCDD['dominan_CDDD']);
+        $ranking = $this->ranking($aggregate_dominan, $matrix_X);
 
         $electre['bobot_preferensi'] = $bobot;
         $electre['matrix_X'] = $matrix_X;
         $electre['matrix_R'] = $matrix_R;
         $electre['matrix_V'] = $matrix_V;
         $electre['CD_DD'] = $cd_dd;
+        $electre['dominan_CDDD'] = $dominan_CCDD;
+        $electre['aggregate_dominan'] = $aggregate_dominan;
+        $electre['ranking'] = $ranking;
         
         // print_r($electre);
-        // return $electre;
+        return $electre;
     }
 
     public function getmatrixX($att)
@@ -170,9 +176,7 @@ class ElectreService
     }
 
     private function CD_DD($matrix_V, $bobot)
-    {
-        print_r($bobot);
-        // print_r($matrix_V);
+    {       
         $jmlAlt = count($matrix_V);
         $CD_DD = [];
 
@@ -226,7 +230,7 @@ class ElectreService
             }   
                                    
         }        
-
+        
         //hitung diconcordance
         foreach($CD_DD as $index=> &$arrayCd )
         {   
@@ -248,19 +252,138 @@ class ElectreService
                                         
                     if(empty($array_atas))  $array_atas = array(0);
                     if(empty($array_bawah))  $array_bawah = array(0);
-
+                                      
                     // print_r($array_atas);                    
                     // print_r($array_bawah);
-                    $array['nilaiDD'] = round(max($array_atas) / max($array_bawah), 4);
+                    if(max($array_atas) == 0 && max($array_bawah) == 0)
+                    {
+                        $array['nilaiDD'] = 0;
+                    }else{
+                        $array['nilaiDD'] = round(max($array_atas) / max($array_bawah), 4);
+                    }
+                    
+                    // echo "round(".max($array_atas)." / ".max($array_bawah).", 4) =".$array['nilaiDD']."<br>";
+                    // echo "round(".max($array_atas)." / ".max($array_bawah).", 4) ="."<br>";
+                    // print_r($array);  
                 }        
                            
             }
         }
-
-        print_r($CD_DD);
+        // print_r($CD_DD);
         return $CD_DD;
     }
-    
-  
 
+    private function dominan_CDDD($CD_DD, $m)
+    {        
+        
+        $totalCD = 0;
+        $totalDD = 0;
+
+        foreach($CD_DD as $index=>$row)
+        {
+            foreach($row as $idx_row=> $cd_dd)
+            {
+                if(is_array($cd_dd))
+                {                    
+                    $totalCD = $totalCD + $cd_dd['nilaiCD'];
+                    $totalDD = $totalDD + $cd_dd['nilaiDD'];
+                }
+            }
+            
+        }                
+
+        $thresholdCD = $totalCD/($m*($m-1));
+        $thresholdDD = $totalDD/($m*($m-1));
+
+        // echo "threshold CD = ".$thresholdCD;
+        // echo " - threshold DD = ".$thresholdDD;
+
+        foreach($CD_DD as $index=> &$row)
+        {
+            foreach($row as $idx_row=> &$cd_dd)
+            {
+                if(is_array($cd_dd))
+                {                    
+                     
+                    $cd_dd['nilaiDD'];
+
+                    if($cd_dd['nilaiCD'] >= $thresholdCD){ 
+                         $cd_dd['d_cd'] = 1; 
+                    }else{ 
+                        $cd_dd['d_cd'] = 0; 
+                    }
+
+                    if($cd_dd['nilaiDD'] >= $thresholdDD){ 
+                        $cd_dd['d_dd'] = 0; 
+                    }else{ 
+                        $cd_dd['d_dd'] = 1; 
+                    }
+                    unset($cd_dd['cd']);
+                    unset($cd_dd['dd']);
+                    unset($cd_dd['nilaiCD']);
+                    unset($cd_dd['nilaiDD']);
+                }                
+            }            
+        }        
+        $result['dominan_CDDD'] = $CD_DD;
+        $result['thresholdCD'] = $thresholdCD;
+        $result['thresholdDD'] = $thresholdDD;
+        return $result;
+    }
+    
+    private function aggregate_dominan($dominan)
+    {        
+        $aggregate = [];
+        
+        foreach($dominan as $idx_row=> $row)
+        {
+            foreach($row as $idx => $dm )
+            {
+                if(is_array($dm))
+                {
+                    $aggregate[$idx_row][$idx] = $dm['d_cd'] * $dm['d_dd'];
+                }else{
+                    $aggregate[$idx_row][$idx] = '-';
+                }
+                
+            }
+        }        
+
+        return $aggregate;
+    }
+
+    private function ranking($aggregate, $alternatif)
+    {
+        // print_r($alternatif);
+        $result = [];
+        foreach($aggregate as $idx_row=>&$row)
+        {          
+            $totalAggregate = 0;  
+            foreach($row as $index=>$ag)
+            {
+                if(is_integer($ag))
+                {
+                    $totalAggregate = $totalAggregate + $ag;
+                }                
+            }
+            if($totalAggregate > 0 )
+            {
+                $result[$idx_row]['id_hero'] = $alternatif[$idx_row]['data']['id'];
+                $result[$idx_row]['hero_name'] = $alternatif[$idx_row]['data']['nama'];
+                $result[$idx_row]['total'] = $totalAggregate;            
+            }            
+        }
+
+        $total = array();
+        foreach ($result as $key => $row)
+        {
+            $total[$key] = $row['total'];
+        }
+        array_multisort($total, SORT_DESC, $result);
+
+        // print_r($result);
+        return $result;
+    }
+
+    
 }

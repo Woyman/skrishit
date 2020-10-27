@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <h4> Bobot Preferensi </h4>
+                                <h5> Bobot Preferensi </h5>
                                 <table class="table table-hover table-bordered">
                                     <thead> 
                                         <tr>                                                                               
@@ -29,8 +29,8 @@
                                 <hr >
                             </div>
                             
-                            <div class="col-12">
-                                <h4><b> Matrix X</b></h4>
+                            <div class="col-12">                                
+                                <h5><b> Matrix X</b></h5>
                                 <table class="table table-hover table-bordered">
                                     <thead> 
                                         <tr> 
@@ -42,7 +42,7 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(matrix, index) in matrix_x" :key="index">
-                                            <td>{{ index+1 }}</td>
+                                            <td>{{ matrix.data.nama }}</td>
                                             <td v-for="(n, idx) in matrix.nilai" :key="idx">
                                                 {{ n }}
                                             </td>                                            
@@ -53,7 +53,8 @@
                             </div>
 
                             <div class="col-12">
-                                <h4><b> Matrix R</b></h4>
+                                <h5>Normalisasi Matriks X</h5>
+                                <p><b> Matrix R</b></p>
                                 <table class="table table-hover table-bordered">
                                     <thead> 
                                         <tr> 
@@ -65,7 +66,7 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(matrix, index) in matrix_r" :key="index">
-                                            <td>{{ index+1 }}</td>
+                                            <td>{{ matrix.data.nama }}</td>
                                             <td v-for="(n, idx) in matrix.nilai" :key="idx">
                                                 {{ n }}
                                             </td>                                            
@@ -76,7 +77,8 @@
                             </div>
 
                             <div class="col-12">
-                                <h4><b> Matrix V</b></h4>
+                                <h5>Pembobotan pada Matriks R</h5>
+                                <p><b> Matrix V</b></p>
                                 <table class="table table-hover table-bordered">
                                     <thead> 
                                         <tr> 
@@ -88,13 +90,84 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(matrix, index) in matrix_v" :key="index">
-                                            <td>{{ index+1 }}</td>
+                                            <td>{{ matrix.data.nama }}</td>
                                             <td v-for="(n, idx) in matrix.nilai" :key="idx">
                                                 {{ n }}
                                             </td>                                            
                                         </tr>
                                     </tbody>
                                 </table>
+                                <hr >
+                            </div>
+                            <div class="col-12">
+                                <h5>Menentukan Matriks Concordance dan Disconcordance</h5>
+                                <p><b> Matrix Concordance</b></p>
+                                <table class="table table-hover table-bordered">                                   
+                                    <tbody>
+                                        <tr v-for="(matrix, index) in cd_dd" :key="index">
+                                            <!-- <td>{{ index+1 }}</td> -->
+                                            <td v-for="(n, idx) in matrix" :key="idx">
+                                                {{ n.nilaiCD }}
+                                            </td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p><b> Matrix Disconcordance</b></p>
+                                <table class="table table-hover table-bordered">                                   
+                                    <tbody>
+                                        <tr v-for="(matrix, index) in cd_dd" :key="index">
+                                            <!-- <td>{{ index+1 }}</td> -->
+                                            <td v-for="(n, idx) in matrix" :key="idx">
+                                                {{ n.nilaiDD }}
+                                            </td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr >
+                            </div>
+
+                            <div class="col-12">
+                                <h5>Menentukan Matriks Dominan Concordance dan Dominan Disconcordance</h5>
+                                <p><b> Matrix Dominan Concordance</b></p>
+                                <p>Threshold Concordance: {{ threshold_cd }}</p>
+                                <table class="table table-hover table-bordered">                                   
+                                    <tbody>
+                                        <tr v-for="(matrix, index) in dominan_cd_dd" :key="index">
+                                            <!-- <td>{{ index+1 }}</td> -->
+                                            <td v-for="(n, idx) in matrix" :key="idx">
+                                                {{ n.d_dd }}
+                                            </td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p><b> Matrix Dominan Disconcordance</b></p>
+                                <p>Threshold Disconcordance: {{ threshold_dd }}</p>
+                                <table class="table table-hover table-bordered">                                   
+                                    <tbody>
+                                        <tr v-for="(matrix, index) in dominan_cd_dd" :key="index">
+                                            <!-- <td>{{ index+1 }}</td> -->
+                                            <td v-for="(n, idx) in matrix" :key="idx">
+                                                {{ n.d_cd }}
+                                            </td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr >
+                            </div>
+
+                            <div class="col-12">
+                                <h5>Menentukan Matriks Aggregate Dominan</h5>
+                                <p><b> Matrix Aggregate Dominan</b></p>                                
+                                <table class="table table-hover table-bordered">                                   
+                                    <tbody>
+                                        <tr v-for="(matrix, index) in aggregate_dominan" :key="index">
+                                            <!-- <td>{{ index+1 }}</td> -->
+                                            <td v-for="(n, idx) in matrix" :key="idx">
+                                                {{ n }}
+                                            </td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>                                
                                 <hr >
                             </div>
                             
@@ -136,14 +209,16 @@ export default {
             matrix_x: 'electre/getMatrixX',
             matrix_r: 'electre/getMatrixR',
             matrix_v: 'electre/getMatrixV',
+            cd_dd: 'electre/getCD_DD',            
+            dominan_cd_dd: 'electre/getDominan_CDDD',
+            threshold_cd: 'electre/getThresholdCD',
+            threshold_dd: 'electre/getThresholdDD',
+            aggregate_dominan: 'electre/getAggregateDominan',
+            rank: 'electre/getRanking',
         })
     },    
-    befordCreated(){
-        
-    },
     created(){
-        this.init();        
-        
+        this.init();                
     },
     methods:{
         init()
@@ -152,6 +227,12 @@ export default {
             console.log(this.matrix_x)
             console.log(this.matrix_r)
             console.log(this.matrix_v)
+            console.log(this.cd_dd)
+            console.log(this.dominan_cd_dd)
+            console.log(this.threshold_cd)
+            console.log(this.threshold_dd)
+            console.log(this.aggregate_dominan)
+            console.log(this.rank)
         },       
         
     },

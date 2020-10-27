@@ -2309,6 +2309,79 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2333,9 +2406,14 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["create
     bobot: 'electre/getBobot',
     matrix_x: 'electre/getMatrixX',
     matrix_r: 'electre/getMatrixR',
-    matrix_v: 'electre/getMatrixV'
+    matrix_v: 'electre/getMatrixV',
+    cd_dd: 'electre/getCD_DD',
+    dominan_cd_dd: 'electre/getDominan_CDDD',
+    threshold_cd: 'electre/getThresholdCD',
+    threshold_dd: 'electre/getThresholdDD',
+    aggregate_dominan: 'electre/getAggregateDominan',
+    rank: 'electre/getRanking'
   })),
-  befordCreated: function befordCreated() {},
   created: function created() {
     this.init();
   },
@@ -2345,6 +2423,12 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["create
       console.log(this.matrix_x);
       console.log(this.matrix_r);
       console.log(this.matrix_v);
+      console.log(this.cd_dd);
+      console.log(this.dominan_cd_dd);
+      console.log(this.threshold_cd);
+      console.log(this.threshold_dd);
+      console.log(this.aggregate_dominan);
+      console.log(this.rank);
     }
   },
   data: function data() {
@@ -8525,7 +8609,7 @@ var render = function() {
         _c("div", { staticClass: "card-body" }, [
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-12" }, [
-              _c("h4", [_vm._v(" Bobot Preferensi ")]),
+              _c("h5", [_vm._v(" Bobot Preferensi ")]),
               _vm._v(" "),
               _c("table", { staticClass: "table table-hover table-bordered" }, [
                 _c("thead", [
@@ -8595,7 +8679,7 @@ var render = function() {
                       "tr",
                       { key: index },
                       [
-                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _c("td", [_vm._v(_vm._s(matrix.data.nama))]),
                         _vm._v(" "),
                         _vm._l(matrix.nilai, function(n, idx) {
                           return _c("td", { key: idx }, [
@@ -8618,6 +8702,8 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-12" }, [
+              _c("h5", [_vm._v("Normalisasi Matriks X")]),
+              _vm._v(" "),
               _vm._m(1),
               _vm._v(" "),
               _c("table", { staticClass: "table table-hover table-bordered" }, [
@@ -8648,7 +8734,7 @@ var render = function() {
                       "tr",
                       { key: index },
                       [
-                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _c("td", [_vm._v(_vm._s(matrix.data.nama))]),
                         _vm._v(" "),
                         _vm._l(matrix.nilai, function(n, idx) {
                           return _c("td", { key: idx }, [
@@ -8671,6 +8757,8 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-12" }, [
+              _c("h5", [_vm._v("Pembobotan pada Matriks R")]),
+              _vm._v(" "),
               _vm._m(2),
               _vm._v(" "),
               _c("table", { staticClass: "table table-hover table-bordered" }, [
@@ -8701,7 +8789,7 @@ var render = function() {
                       "tr",
                       { key: index },
                       [
-                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _c("td", [_vm._v(_vm._s(matrix.data.nama))]),
                         _vm._v(" "),
                         _vm._l(matrix.nilai, function(n, idx) {
                           return _c("td", { key: idx }, [
@@ -8721,6 +8809,163 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("hr")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-12" }, [
+              _c("h5", [
+                _vm._v("Menentukan Matriks Concordance dan Disconcordance")
+              ]),
+              _vm._v(" "),
+              _vm._m(3),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c(
+                  "tbody",
+                  _vm._l(_vm.cd_dd, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      _vm._l(matrix, function(n, idx) {
+                        return _c("td", { key: idx }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(n.nilaiCD) +
+                              "\n                                        "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(4),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c(
+                  "tbody",
+                  _vm._l(_vm.cd_dd, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      _vm._l(matrix, function(n, idx) {
+                        return _c("td", { key: idx }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(n.nilaiDD) +
+                              "\n                                        "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-12" }, [
+              _c("h5", [
+                _vm._v(
+                  "Menentukan Matriks Dominan Concordance dan Dominan Disconcordance"
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(5),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("Threshold Concordance: " + _vm._s(_vm.threshold_cd))
+              ]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c(
+                  "tbody",
+                  _vm._l(_vm.dominan_cd_dd, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      _vm._l(matrix, function(n, idx) {
+                        return _c("td", { key: idx }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(n.d_dd) +
+                              "\n                                        "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(6),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("Threshold Disconcordance: " + _vm._s(_vm.threshold_dd))
+              ]),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c(
+                  "tbody",
+                  _vm._l(_vm.dominan_cd_dd, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      _vm._l(matrix, function(n, idx) {
+                        return _c("td", { key: idx }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(n.d_cd) +
+                              "\n                                        "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-12" }, [
+              _c("h5", [_vm._v("Menentukan Matriks Aggregate Dominan")]),
+              _vm._v(" "),
+              _vm._m(7),
+              _vm._v(" "),
+              _c("table", { staticClass: "table table-hover table-bordered" }, [
+                _c(
+                  "tbody",
+                  _vm._l(_vm.aggregate_dominan, function(matrix, index) {
+                    return _c(
+                      "tr",
+                      { key: index },
+                      _vm._l(matrix, function(n, idx) {
+                        return _c("td", { key: idx }, [
+                          _vm._v(
+                            "\n                                            " +
+                              _vm._s(n) +
+                              "\n                                        "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("hr")
             ])
           ])
         ])
@@ -8733,19 +8978,49 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", [_c("b", [_vm._v(" Matrix X")])])
+    return _c("h5", [_c("b", [_vm._v(" Matrix X")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", [_c("b", [_vm._v(" Matrix R")])])
+    return _c("p", [_c("b", [_vm._v(" Matrix R")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h4", [_c("b", [_vm._v(" Matrix V")])])
+    return _c("p", [_c("b", [_vm._v(" Matrix V")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [_c("b", [_vm._v(" Matrix Concordance")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [_c("b", [_vm._v(" Matrix Disconcordance")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [_c("b", [_vm._v(" Matrix Dominan Concordance")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [_c("b", [_vm._v(" Matrix Dominan Disconcordance")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [_c("b", [_vm._v(" Matrix Aggregate Dominan")])])
   }
 ]
 render._withStripped = true
@@ -30541,9 +30816,13 @@ var submit = /*#__PURE__*/function () {
             context.commit('SET_MATRIX_X', result.matrix_X);
             context.commit('SET_MATRIX_R', result.matrix_R);
             context.commit('SET_MATRIX_V', result.matrix_V);
+            context.commit('SET_CD_DD', result.CD_DD);
+            context.commit('SET_DOMINAN_CDDD', result.dominan_CDDD);
+            context.commit('SET_AGGREGATE', result.aggregate_dominan);
+            context.commit('SET_RANK', result.ranking);
             return _context2.abrupt("return", result);
 
-          case 10:
+          case 14:
           case "end":
             return _context2.stop();
         }
@@ -30570,13 +30849,20 @@ var submit = /*#__PURE__*/function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default_state", function() { return default_state; });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var getDefaultState = function getDefaultState() {
-  return {
+  var _ref;
+
+  return _ref = {
     bobot_preferensi: null,
     matrix_x: null,
     matrix_r: null,
-    matrix_v: null
-  };
+    matrix_v: null,
+    cd_dd: null,
+    dominan_cd_dd: null,
+    threshold_cd: null
+  }, _defineProperty(_ref, "threshold_cd", null), _defineProperty(_ref, "aggregate_dominan", null), _defineProperty(_ref, "rank", null), _ref;
 };
 
 var default_state = getDefaultState();
@@ -30588,7 +30874,7 @@ var default_state = getDefaultState();
 /*!*******************************************************!*\
   !*** ./resources/js/store/modules/electre/getters.js ***!
   \*******************************************************/
-/*! exports provided: getBobot, getMatrixX, getMatrixR, getMatrixV, getField */
+/*! exports provided: getBobot, getMatrixX, getMatrixR, getMatrixV, getCD_DD, getDominan_CDDD, getThresholdCD, getThresholdDD, getAggregateDominan, getRanking, getField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30597,6 +30883,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMatrixX", function() { return getMatrixX; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMatrixR", function() { return getMatrixR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMatrixV", function() { return getMatrixV; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCD_DD", function() { return getCD_DD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDominan_CDDD", function() { return getDominan_CDDD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getThresholdCD", function() { return getThresholdCD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getThresholdDD", function() { return getThresholdDD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAggregateDominan", function() { return getAggregateDominan; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRanking", function() { return getRanking; });
 /* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getField", function() { return vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__["getField"]; });
 
@@ -30616,6 +30908,30 @@ var getMatrixR = function getMatrixR(state) {
 
 var getMatrixV = function getMatrixV(state) {
   return state.matrix_v;
+};
+
+var getCD_DD = function getCD_DD(state) {
+  return state.cd_dd;
+};
+
+var getDominan_CDDD = function getDominan_CDDD(state) {
+  return state.dominan_cd_dd;
+};
+
+var getThresholdCD = function getThresholdCD(state) {
+  return state.threshold_cd;
+};
+
+var getThresholdDD = function getThresholdDD(state) {
+  return state.threshold_dd;
+};
+
+var getAggregateDominan = function getAggregateDominan(state) {
+  return state.aggregate_dominan;
+};
+
+var getRanking = function getRanking(state) {
+  return state.rank;
 };
 
 
@@ -30654,7 +30970,7 @@ var namespaced = true;
 /*!*********************************************************!*\
   !*** ./resources/js/store/modules/electre/mutations.js ***!
   \*********************************************************/
-/*! exports provided: SET_BOBOT, SET_MATRIX_X, SET_MATRIX_R, SET_MATRIX_V, UPDATE_FIELD */
+/*! exports provided: SET_BOBOT, SET_MATRIX_X, SET_MATRIX_R, SET_MATRIX_V, SET_CD_DD, SET_DOMINAN_CDDD, SET_AGGREGATE, SET_RANK, UPDATE_FIELD */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30663,6 +30979,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MATRIX_X", function() { return SET_MATRIX_X; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MATRIX_R", function() { return SET_MATRIX_R; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_MATRIX_V", function() { return SET_MATRIX_V; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CD_DD", function() { return SET_CD_DD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DOMINAN_CDDD", function() { return SET_DOMINAN_CDDD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_AGGREGATE", function() { return SET_AGGREGATE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_RANK", function() { return SET_RANK; });
 /* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_FIELD", function() { return vuex_map_fields__WEBPACK_IMPORTED_MODULE_0__["updateField"]; });
 
@@ -30686,6 +31006,24 @@ var SET_MATRIX_R = function SET_MATRIX_R(state, payload) {
 
 var SET_MATRIX_V = function SET_MATRIX_V(state, payload) {
   state.matrix_v = payload;
+};
+
+var SET_CD_DD = function SET_CD_DD(state, payload) {
+  state.cd_dd = payload;
+};
+
+var SET_DOMINAN_CDDD = function SET_DOMINAN_CDDD(state, payload) {
+  state.dominan_cd_dd = payload.dominan_CDDD;
+  state.threshold_cd = payload.thresholdCD;
+  state.threshold_dd = payload.thresholdDD;
+};
+
+var SET_AGGREGATE = function SET_AGGREGATE(state, payload) {
+  state.aggregate_dominan = payload;
+};
+
+var SET_RANK = function SET_RANK(state, payload) {
+  state.rank = payload;
 };
 
 
