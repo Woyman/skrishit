@@ -6,101 +6,123 @@ import AddHero from '../components/hero/HeroFormComponent.vue'
 import Kriteria from '../components/kriteria/KriteriaListComponent.vue'
 import Electre from '../components/electre/ElectreFormComponent.vue'
 import ResultElectre from '../components/electre/ResultElectreComponent.vue'
+import Login from '../components/LoginComponent.vue'
     
 export default [
-
+  {
+		path : '/admin/login',
+		name : 'login',
+        meta : { 
+                 name : 'Login',                                   
+                 title : 'Login Page',  
+                 menuParent: '', 
+                //  require_auth: false,                  
+               },
+    component : Login,
+  
+  },     
 	{
-		path : '/',
-		name : 'dashboard',
+		path : '/admin',
+		name : 'admin.dashboard',
         meta : { 
                  name : 'Dashboard',                                   
                  title : 'Dashboard',  
-                 menuParent: 'dashboard'                  
+                 menuParent: 'dashboard',
+                 require_auth: true,                                    
                },
     component : Dashboard,
   
   },     
   {
-		path : '/role',
+		path : '/admin/role',
 		name : 'admin.role',
         meta : { 
                  name : 'Role',                                   
                  title : 'Role',        
-                 menuParent: 'role'            
+                 menuParent: 'role',
+                 require_auth: true,                              
                },
     component : Role,  
   },    
   {
-		path : '/speciality',
+		path : '/admin/speciality',
 		name : 'admin.speciality',
         meta : { 
                  name : 'Speciality',                                   
                  title : 'Speciality',    
-                 menuParent: 'speciality'                
+                 menuParent: 'speciality',
+                 require_auth: true,                    
                },
     component : Speciality,  
   },     
   
   {
-		path : '/hero',
+		path : '/admin/hero',
 		name : 'admin.hero',
         meta : { 
                  name : 'Hero',                                   
                  title : 'Hero',    
-                 menuParent: 'hero'                                
+                 menuParent: 'hero',
+                 require_auth: true,                  
                },
     component : Hero,  
   },   
   {
-		path : '/hero/add',
+		path : '/admin/hero/add',
 		name : 'admin.hero.add',
         meta : { 
                  name : 'Add New Hero',                                   
                  title : 'Add New Hero',    
-                 menuParent: 'hero'                                
+                 menuParent: 'hero',
+                 require_auth: true,                  
                },
     component : AddHero,  
   },   
   {
-		path : '/hero/edit/:idHero',
+		path : '/admin/hero/edit/:idHero',
 		name : 'admin.hero.edit',
         meta : { 
                  name : 'Edit Hero',                                   
                  title : 'Edit Hero',    
-                 menuParent: 'hero'                                
+                 menuParent: 'hero',
+                 require_auth: true,                  
                },
     component : AddHero,  
   },   
   {
-		path : '/kriteria',
+		path : '/admin/kriteria',
 		name : 'admin.kriteria',
         meta : { 
                  name : 'Kriteria',                                   
                  title : 'Kriteria',    
-                 menuParent: 'kriteria'                                
+                 menuParent: 'kriteria',
+                 require_auth: true,                  
                },
     component : Kriteria,  
   },   
   {
-		path : '/electre',
+		path : '/admin/electre',
 		name : 'admin.electre',
         meta : { 
                  name : 'Perhitungan Electre',                                   
                  title : 'Perhitungan Electre',    
-                 menuParent: 'electre'                                
+                 menuParent: 'electre',
+                 require_auth: true,                  
                },
     component : Electre,  
   },   
   {
-		path : '/electre/result',
-		name : 'admin.electre.restul',
+		path : '/admin/electre/result',
+		name : 'admin.electre.result',
         meta : { 
                  name : 'Hasil Perhitungan Electre',                                   
                  title : 'Hasil Perhitungan Electre',    
-                 menuParent: 'electre'                                
+                 menuParent: 'electre',
+                 require_auth: true,                                                  
                },
     component : ResultElectre,  
   },   
+  
 
 
 ];    

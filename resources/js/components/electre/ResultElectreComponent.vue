@@ -1,7 +1,7 @@
 <template>
     <!-- <div class="container"> -->
         <div class="row col-12 justify-content-center">
-            <div class="col-7 col-md-8 col-xs-12 mt-3 ">
+            <div class="col-12 col-md-12 col-xs-12 mt-3 ">
                 <div class="card">
                     <div class="card-header">
                         <h4>{{ pageTitle }}</h4>
@@ -170,6 +170,27 @@
                                 </table>                                
                                 <hr >
                             </div>
+
+                             <div class="col-12">
+                                <h5>Eliminasi Alternatif dan Ranking</h5>                                
+                                <table class="table table-hover table-bordered">      
+                                    <thead> 
+                                        <tr>                                                                               
+                                            <th>#</th>
+                                            <th>Nama Hero</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>                             
+                                    <tbody>
+                                        <tr v-for="(matrix, index) in rank" :key="index">
+                                            <td>{{ index+1 }}</td>
+                                            <td>{{ matrix.hero_name }}</td>                                                                   
+                                            <td>{{ matrix.total }}</td>                                                                   
+                                        </tr>
+                                    </tbody>
+                                </table>                                
+                                <hr >
+                            </div>
                             
                         </div>                    
                     </div>                    
@@ -221,6 +242,7 @@ export default {
         this.init();                
     },
     methods:{
+        
         init()
         {    
             console.log(this.bobot)

@@ -8,25 +8,39 @@ import App from './components/AppComponent'
 
 import SimpleVueValidation from 'simple-vue-validator'
 
+window.axios = require('axios')
+
+function getToken(){
+    if(localStorage.getItem('user'))
+    {
+        let user = JSON.parse(localStorage.getItem('user'));
+        return user.token        
+    }
+    return null
+}
+
+
+if(getToken())
+{
+    axios.defaults.headers.common["Authorization"] = "Bearer" + getToken();    
+}
+
 Vue.use(SimpleVueValidation)
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+router.beforeEach((to, from, next) => {
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+    const require_auth = to.matched.some(record => record.meta.require_auth)
+    const current_user = localStorage.getItem("user")
+        
+    if(require_auth && !current_user )
+    {
+        next('admin/login')
+    }else if(to.path == '/admin/login' && current_user ){
+        next('/')
+    }else{
+        next()
+    }
+})
 
 const app = new Vue({
     el: '#app',

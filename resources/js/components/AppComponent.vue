@@ -1,7 +1,8 @@
 <template>
 	<div>		
 		<div id="wrapper" class="wrapper" >
-			<navbar></navbar>   
+			<navbar v-if="isLogin != 'login' ">
+			</navbar >   
     		<div class="content-wrapper">  
 				<router-view></router-view>
     		</div>
@@ -14,21 +15,22 @@ import Navbar from './layout/NavbarComponent'
 
 export default {
 components:{                
-        'navbar' : Navbar,       
-    }, 
+        'navbar' : Navbar       
+	}, 
+computed:{
+        isLogin() {   
+            return this.$route.name            
+        },
+    },
 created(){
-	this.init();
+	
 },
 methods:{
-	init(){		
-		
-	}
+	
 },
 data() {
 	return {
-		request:{
-
-		}
+		
 	}
 }
 				

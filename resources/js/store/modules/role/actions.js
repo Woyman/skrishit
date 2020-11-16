@@ -1,18 +1,20 @@
 import Axios from 'axios'
 
+
 const getAllRole = async (context) => {
-    let url = '/api/role'                
+    let url = '/api/role'     
+    
     let response = await Axios.get(url)
 
-    // console.log(response)
     return response.data.data       
 }
 
 const getOneRole = async (context, payload) => {
     let url = '/api/role/'+payload.idRole                
+    
     let response = await Axios.get(url)
 
-    // console.log(response)
+    
     return response.data.data       
 }
 

@@ -6,7 +6,7 @@ import speciality from './modules/speciality/index.js';
 import hero from './modules/hero/index.js';
 import kriteria from './modules/kriteria/index.js'
 import electre from './modules/electre/index.js'
-// import auth from './modules/auth/index.js';
+import auth from './modules/auth/index.js';
 
 Vue.use( Vuex )
 
@@ -17,8 +17,8 @@ export default new Vuex.Store({
         speciality,
         hero,
         kriteria,
-        electre
-        // auth
+        electre,
+        auth
     }
 
 });

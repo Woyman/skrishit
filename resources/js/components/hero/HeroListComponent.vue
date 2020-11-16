@@ -54,7 +54,7 @@
             <div slot="body">
                 <div class="row">                    
                     <div class="col-4"> 
-                        <img :src="detail.photo" alt="gambar herp" class="img-thumbnail">
+                        <img :src="'/'+detail.photo" alt="gambar herp" class="img-thumbnail">
                     </div>
                     <div class="col-8"> 
                         <div class="row">
