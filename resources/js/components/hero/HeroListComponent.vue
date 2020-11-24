@@ -6,7 +6,7 @@
                     <div class="card-header">{{ pageTitle }}
 
                         <div class="float-right">
-                            <a :href="'/hero/add'" class="btn btn-sm btn-primary" >    
+                            <a :href="'/admin/hero/add'" class="btn btn-sm btn-primary" >    
                                 <i class="fa fa-plus"></i> Add New Hero
                             </a>
                         </div>

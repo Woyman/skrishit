@@ -34,9 +34,9 @@ router.beforeEach((to, from, next) => {
         
     if(require_auth && !current_user )
     {
-        next('admin/login')
+        next('/admin/login')
     }else if(to.path == '/admin/login' && current_user ){
-        next('/')
+        next('/admin')
     }else{
         next()
     }

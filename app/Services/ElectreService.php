@@ -228,7 +228,7 @@ class ElectreService
                 }
 
             }   
-                                   
+                                    
         }        
         
         //hitung diconcordance
@@ -252,21 +252,16 @@ class ElectreService
                                         
                     if(empty($array_atas))  $array_atas = array(0);
                     if(empty($array_bawah))  $array_bawah = array(0);
-                                      
-                    // print_r($array_atas);                    
-                    // print_r($array_bawah);
+                                                            
                     if(max($array_atas) == 0 && max($array_bawah) == 0)
                     {
                         $array['nilaiDD'] = 0;
                     }else{
                         $array['nilaiDD'] = round(max($array_atas) / max($array_bawah), 4);
                     }
-                    
-                    // echo "round(".max($array_atas)." / ".max($array_bawah).", 4) =".$array['nilaiDD']."<br>";
-                    // echo "round(".max($array_atas)." / ".max($array_bawah).", 4) ="."<br>";
-                    // print_r($array);  
+                                        
                 }        
-                           
+                            
             }
         }
         // print_r($CD_DD);
@@ -304,11 +299,11 @@ class ElectreService
             {
                 if(is_array($cd_dd))
                 {                    
-                     
+                        
                     $cd_dd['nilaiDD'];
 
                     if($cd_dd['nilaiCD'] >= $thresholdCD){ 
-                         $cd_dd['d_cd'] = 1; 
+                            $cd_dd['d_cd'] = 1; 
                     }else{ 
                         $cd_dd['d_cd'] = 0; 
                     }
@@ -352,38 +347,38 @@ class ElectreService
         return $aggregate;
     }
 
-    private function ranking($aggregate, $alternatif)
-    {
-        // print_r($alternatif);
-        $result = [];
-        foreach($aggregate as $idx_row=>&$row)
-        {          
-            $totalAggregate = 0;  
-            foreach($row as $index=>$ag)
-            {
-                if(is_integer($ag))
-                {
-                    $totalAggregate = $totalAggregate + $ag;
-                }                
-            }
-            if($totalAggregate > 0 )
-            {
-                $result[$idx_row]['id_hero'] = $alternatif[$idx_row]['data']['id'];
-                $result[$idx_row]['hero_name'] = $alternatif[$idx_row]['data']['nama'];
-                $result[$idx_row]['total'] = $totalAggregate;            
-            }            
-        }
-
-        $total = array();
-        foreach ($result as $key => $row)
+private function ranking($aggregate, $alternatif)
+{
+    // print_r($alternatif);
+    $result = [];
+    foreach($aggregate as $idx_row=>&$row)
+    {          
+        $totalAggregate = 0;  
+        foreach($row as $index=>$ag)
         {
-            $total[$key] = $row['total'];
+            if(is_integer($ag))
+            {
+                $totalAggregate = $totalAggregate + $ag;
+            }                
         }
-        array_multisort($total, SORT_DESC, $result);
-
-        // print_r($result);
-        return $result;
+        if($totalAggregate > 0 )
+        {
+            $result[$idx_row]['id_hero'] = $alternatif[$idx_row]['data']['id'];
+            $result[$idx_row]['hero_name'] = $alternatif[$idx_row]['data']['nama'];
+            $result[$idx_row]['total'] = $totalAggregate;            
+        }            
     }
+
+    $total = array();
+    foreach ($result as $key => $row)
+    {
+        $total[$key] = $row['total'];
+    }
+    array_multisort($total, SORT_DESC, $result);
+
+    // print_r($result);
+    return $result;
+}
 
     
 }

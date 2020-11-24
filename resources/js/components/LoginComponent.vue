@@ -47,7 +47,7 @@ export default {
             login(this.$data.form).then((res) => {
                 
                 this.$store.commit("auth/LOGIN_SUCCESS", res)
-                this.$router.push({path: '/'})
+                this.$router.push({path: '/admin'})
             }).catch((error) => {
                 this.$store.commit("auth/LOGIN_FAILED", {error}) 
 

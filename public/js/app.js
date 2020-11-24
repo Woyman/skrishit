@@ -1977,6 +1977,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {// console.log('Component mounted.')
   }
@@ -2039,7 +2044,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.$store.commit("auth/LOGIN_SUCCESS", res);
 
         _this.$router.push({
-          path: '/'
+          path: '/admin'
         });
       })["catch"](function (error) {
         _this.$store.commit("auth/LOGIN_FAILED", {
@@ -3590,6 +3595,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vuex_map_fields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex-map-fields */ "./node_modules/vuex-map-fields/dist/index.esm.js");
+//
+//
 //
 //
 //
@@ -8481,11 +8488,22 @@ var render = function() {
             _vm._v(_vm._s(_vm.pageTitle))
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm._v(
-              "\n                    I'm an example component.\n                "
-            )
-          ])
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c("center", [
+                _c("img", { attrs: { src: "/assets/logo.png", alt: "" } }),
+                _vm._v(" "),
+                _c("h4", [
+                  _vm._v(
+                    "Selamat Datang di Admin Sistem Rekomendasi Pemilihan Hero Mobile Legend."
+                  )
+                ])
+              ])
+            ],
+            1
+          )
         ])
       ])
     ])
@@ -9624,7 +9642,7 @@ var render = function() {
                             "max-width": "250px",
                             "mas-heigth": "250px"
                           },
-                          attrs: { src: "../../" + _vm.hero.photo }
+                          attrs: { src: "../../../" + _vm.hero.photo }
                         })
                       : _c("img", {
                           staticStyle: {
@@ -10291,7 +10309,7 @@ var render = function() {
                   "a",
                   {
                     staticClass: "btn btn-sm btn-primary",
-                    attrs: { href: "/hero/add" }
+                    attrs: { href: "/admin/hero/add" }
                   },
                   [
                     _c("i", { staticClass: "fa fa-plus" }),
@@ -11065,11 +11083,9 @@ var render = function() {
     "nav",
     { staticClass: "navbar navbar-expand-sm navbar-dark bg-dark" },
     [
-      _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-        _vm._v("Navbar")
-      ]),
-      _vm._v(" "),
       _vm._m(0),
+      _vm._v(" "),
+      _vm._m(1),
       _vm._v(" "),
       _c(
         "div",
@@ -11256,6 +11272,16 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "navbar-brand", attrs: { href: "/admin" } }, [
+      _c("img", {
+        attrs: { src: "/assets/logo.png", width: "30", height: "30", alt: "" }
+      })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -30037,9 +30063,9 @@ _router_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to
   var current_user = localStorage.getItem("user");
 
   if (require_auth && !current_user) {
-    next('admin/login');
+    next('/admin/login');
   } else if (to.path == '/admin/login' && current_user) {
-    next('/');
+    next('/admin');
   } else {
     next();
   }

@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="col-6">
                                         <div class="pict_hero_here">
-                                            <img :src="'../../'+hero.photo"  style="max-width: 250px; mas-heigth: 250px" v-if="idHero && imgUrl == null ">
+                                            <img :src="'../../../'+hero.photo"  style="max-width: 250px; mas-heigth: 250px" v-if="idHero && imgUrl == null ">
                                             <img :src="imgUrl"  style="max-width: 250px; mas-heigth: 250px" v-else>
                                         </div>
                                 </div>
