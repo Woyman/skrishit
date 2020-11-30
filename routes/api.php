@@ -47,11 +47,17 @@ Route::group(['middleware' => 'jwt.auth'], function($router){
     Route::get('/kriteria/{idHero}', 'Api\KriteriaController@getOne'); 
     Route::post('/kriteria', 'Api\KriteriaController@insert'); 
     Route::post('/kriteria/update', 'Api\KriteriaController@update'); 
-
-    Route::post('/electre', 'Api\ElectreController@index'); 
-    Route::post('/hitung-electre', 'Api\ElectreController@hitungElectre'); 
-
+   
 });
+
+
+Route::post('/electre', 'Api\ElectreController@index'); 
+Route::post('/hitung-electre', 'Api\ElectreController@hitungElectre'); 
+Route::get('/user/hero', 'Api\HeroController@index'); 
+Route::get('/user/hero/{idHero}', 'Api\HeroController@getOne');
+Route::get('/user/role', 'Api\RoleController@index');
+Route::get('/user/speciality', 'Api\SpecialityController@index'); 
+Route::get('/user/kriteria', 'Api\KriteriaController@index'); 
 
 
 

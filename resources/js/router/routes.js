@@ -7,6 +7,7 @@ import Kriteria from '../components/kriteria/KriteriaListComponent.vue'
 import Electre from '../components/electre/ElectreFormComponent.vue'
 import ResultElectre from '../components/electre/ResultElectreComponent.vue'
 import Login from '../components/LoginComponent.vue'
+import UserListHero from '../components/hero/UserHeroListComponenet.vue'
     
 export default [
   {
@@ -100,27 +101,42 @@ export default [
                },
     component : Kriteria,  
   },   
+
+  // TAMPILAN USER 
+
   {
-		path : '/admin/electre',
+		path : '/electre',
 		name : 'admin.electre',
         meta : { 
                  name : 'Perhitungan Electre',                                   
                  title : 'Perhitungan Electre',    
                  menuParent: 'electre',
-                 require_auth: true,                  
+                //  require_auth: true,                  
                },
     component : Electre,  
   },   
   {
-		path : '/admin/electre/result',
+		path : '/electre/result',
 		name : 'admin.electre.result',
         meta : { 
                  name : 'Hasil Perhitungan Electre',                                   
                  title : 'Hasil Perhitungan Electre',    
                  menuParent: 'electre',
-                 require_auth: true,                                                  
+                //  require_auth: true,                                                  
                },
     component : ResultElectre,  
+  },   
+
+  {
+		path : '/hero',
+		name : 'list.hero',
+        meta : { 
+                 name : 'Hero',                                   
+                 title : 'Daftar Hero',    
+                 menuParent: 'hero',
+                //  require_auth: true,                                                  
+               },
+    component : UserListHero,  
   },   
   
 

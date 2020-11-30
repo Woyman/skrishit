@@ -100,7 +100,7 @@ export default {
         init()
         {   var bobot = {}
             let parent = this
-            this.$store.dispatch('kriteria/getAllKriteria').then((response)=>{                
+            this.$store.dispatch('electre/getAllKriteria').then((response)=>{                
                 parent.kriterias = response
                 parent.kriterias.forEach(function(k){
                         var field = k.kriteria_field
@@ -114,7 +114,7 @@ export default {
                 })     
             })
             
-            this.$store.dispatch('role/getAllRole').then((response)=>{             
+            this.$store.dispatch('electre/getAllRole').then((response)=>{             
                 
                 response.forEach(function(res, index){
                     
@@ -123,7 +123,7 @@ export default {
                                                 
             })
 
-            this.$store.dispatch('speciality/getAllSpeciality').then((response)=>{                
+            this.$store.dispatch('electre/getAllSpeciality').then((response)=>{                
                 
                 response.forEach(function(res, index){
                     parent.specialityOption.push(res.speciality_name)                                        

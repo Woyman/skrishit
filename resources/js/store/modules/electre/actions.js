@@ -28,9 +28,59 @@ const submit = async (context, payload) => {
 }
 
 
+const getAllHero = async (context) => {
+    let url = '/api/user/hero'                
+    let response = await Axios.get(url)
+
+    // console.log(response)
+    return response.data.data       
+}
+
+const getOneHero = async (context, payload) => {
+    let url = '/api/user/hero/'+payload.idHero                
+    let response = await Axios.get(url)
+    // console.log(response)  
+    let hero = response.data.data       
+    let role = hero.role
+    let speciality = hero.speciality
+    hero.role = role.join(', ')
+    hero.speciality = speciality.join(', ')
+
+    return hero
+}
+
+const getAllKriteria = async (context) => {
+    let url = '/api/user/kriteria'                
+    let response = await Axios.get(url)
+
+    // console.log(response)
+    return response.data.data       
+}
+
+const getAllRole = async (context) => {
+    let url = '/api/user/role'     
+    
+    let response = await Axios.get(url)
+
+    return response.data.data       
+}
+
+const getAllSpeciality = async (context) => {
+    let url = '/api/user/speciality'                
+    let response = await Axios.get(url)
+
+    // console.log(response)
+    return response.data.data       
+}
+
 
 export {
     sendBobot,
-    submit
+    submit,
+    getAllHero,
+    getOneHero,
+    getAllKriteria,
+    getAllRole,
+    getAllSpeciality
     
 };

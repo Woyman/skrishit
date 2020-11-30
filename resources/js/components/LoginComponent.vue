@@ -7,6 +7,8 @@
             </div>
             <div class="card-body ">
                 <form @submit.prevent="authenticate">
+                    
+                    <div class="text-center"><small class="text-danger" v-if="error" >{{ error }}</small></div>
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="text" class="form-control" id="email" v-model="form.email" placeholder="Email">
@@ -50,7 +52,8 @@ export default {
                 this.$router.push({path: '/admin'})
             }).catch((error) => {
                 this.$store.commit("auth/LOGIN_FAILED", {error}) 
-
+                this.error = error
+                console.log(this.error)
             })
             
         }       

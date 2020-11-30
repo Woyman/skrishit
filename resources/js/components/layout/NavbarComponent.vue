@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="/admin">
+        <a class="navbar-brand" href="#">
              <img src="/assets/logo.png" width="30" height="30" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,6 +23,12 @@
                     </li>
                     <li class="nav-item" v-bind:class="this.pathName == 'kriteria' ? 'active': '' ">
                         <a class="nav-link" href="/admin/kriteria" >Kriteria</a>
+                    </li>                    
+                </template>
+
+                <template v-else>
+                    <li class="nav-item" v-bind:class="this.pathName == 'hero' ? 'active': '' ">
+                        <router-link class="nav-link" :to="{name:'list.hero'}" >Daftar Hero</router-link>
                     </li>
                     <li class="nav-item" v-bind:class="this.pathName == 'electre' ? 'active': '' ">
                         <router-link class="nav-link" :to="{name:'admin.electre'}" >Perhitungan Electre</router-link>
