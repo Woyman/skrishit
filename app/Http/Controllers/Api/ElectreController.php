@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Services\ElectreService;
+use App\Services\KriteriaService;
 use Illuminate\Http\Request;
 use App\Utils\UtilHelper;
 
@@ -14,21 +15,26 @@ class ElectreController
      * RoleController constructor.
      * @param $service
      */
-    public function __construct(ElectreService $service)
+    public function __construct(ElectreService $service,
+                                KriteriaService $kriteria )
     {
         $this->service = $service;
+        $this->kriteria = $kriteria;
     }
 
     public function index(Request $req)
     {
-        $att = $req->validate([
-                    'durability' => 'required|numeric',
-                    'offense' => 'required|numeric',
-                    'skill_effect' => 'required|numeric',
-                    'difficulty' => 'required|numeric', 
-                    'role' => 'array',
-                    'speciality' => 'array'
-                ]);
+        $allKriteria = $this->kriteria->getAll();
+        $validate = [];
+        foreach($allKriteria as $kriteria)
+        {
+            $validate[$kriteria['kriteria_field']] = 'required|numeric';
+        }
+        
+        $validate['role'] = 'array';
+        $validate['speciality'] = 'array';
+
+        $att = $req->validate($validate);
         // print_r($req->all());
 
         $data = $this->service->getmatrixX($att);

@@ -32,7 +32,7 @@
             <div class="col-7 col-xs-12 mt-3">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Matrix X</h4>
+                        <h4>Matrix X / Alternatif</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -161,7 +161,11 @@ export default {
         },      
         submit()
         {
-            parent = this            
+            parent = this     
+            
+            // console.log(this.bobot_preferensi)
+            // console.log(this.w)
+            
             this.bobot_preferensi.forEach(function(res,index){
                 res.nilai = parent.w[res.field];
             })  

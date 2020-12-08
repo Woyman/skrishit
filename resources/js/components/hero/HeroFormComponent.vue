@@ -425,7 +425,7 @@ export default {
                     if(response)
                     {
                         alert('Hero telah diupdate')
-                        parent.$router.push('/hero')
+                        parent.$router.push('/admin/hero')
                     }
                 })
 
@@ -436,7 +436,7 @@ export default {
                     if(response)
                     {
                         alert('Hero baru telah ditambahkan')
-                        parent.$router.push('/hero')
+                        parent.$router.push('/admin/hero')
                     }
                                                                     
                 })

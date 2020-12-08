@@ -135,7 +135,7 @@
                                         <tr v-for="(matrix, index) in dominan_cd_dd" :key="index">
                                             <!-- <td>{{ index+1 }}</td> -->
                                             <td v-for="(n, idx) in matrix" :key="idx">
-                                                {{ n.d_dd }}
+                                                {{ n.d_cd }}
                                             </td>                                            
                                         </tr>
                                     </tbody>
@@ -147,7 +147,7 @@
                                         <tr v-for="(matrix, index) in dominan_cd_dd" :key="index">
                                             <!-- <td>{{ index+1 }}</td> -->
                                             <td v-for="(n, idx) in matrix" :key="idx">
-                                                {{ n.d_cd }}
+                                                {{ n.d_dd }}
                                             </td>                                            
                                         </tr>
                                     </tbody>

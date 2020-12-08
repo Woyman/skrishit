@@ -2235,7 +2235,9 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_3__["create
     submit: function submit() {
       var _this2 = this;
 
-      parent = this;
+      parent = this; // console.log(this.bobot_preferensi)
+      // console.log(this.w)
+
       this.bobot_preferensi.forEach(function (res, index) {
         res.nilai = parent.w[res.field];
       });
@@ -3042,14 +3044,14 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
         this.$store.dispatch('hero/updateHero', data).then(function (response) {
           if (response) {
             alert('Hero telah diupdate');
-            parent.$router.push('/hero');
+            parent.$router.push('/admin/hero');
           }
         });
       } else {
         this.$store.dispatch('hero/insertHero', data).then(function (response) {
           if (response) {
             alert('Hero baru telah ditambahkan');
-            parent.$router.push('/hero');
+            parent.$router.push('/admin/hero');
           }
         });
       }
@@ -9079,7 +9081,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
-      _c("h4", [_vm._v("Matrix X")])
+      _c("h4", [_vm._v("Matrix X / Alternatif")])
     ])
   }
 ]
@@ -9398,7 +9400,7 @@ var render = function() {
                         return _c("td", { key: idx }, [
                           _vm._v(
                             "\n                                            " +
-                              _vm._s(n.d_dd) +
+                              _vm._s(n.d_cd) +
                               "\n                                        "
                           )
                         ])
@@ -9427,7 +9429,7 @@ var render = function() {
                         return _c("td", { key: idx }, [
                           _vm._v(
                             "\n                                            " +
-                              _vm._s(n.d_cd) +
+                              _vm._s(n.d_dd) +
                               "\n                                        "
                           )
                         ])
@@ -30706,6 +30708,8 @@ _router_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].beforeEach(function (to
   if (require_auth && !current_user) {
     next('/admin/login');
   } else if (to.path == '/admin/login' && current_user) {
+    next('/admin');
+  } else if (to.path == '/' && current_user) {
     next('/admin');
   } else if (to.path == '/') {
     next('/hero');

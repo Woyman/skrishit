@@ -87,11 +87,12 @@ class ElectreService
                    'difficulty' => 1 
                 ];            
         $alternatif = [];
+        $sort = ['name' => 1 ];
         if($filter)
         {
-            $alternatif = $this->hero->getAll($filter, $select);
+            $alternatif = $this->hero->getAll($filter, $select, $sort = []);
         }else{
-            $alternatif = $this->hero->getAll([], $select);
+            $alternatif = $this->hero->getAll([], $select, $sort = []);
         }
         foreach($alternatif as &$alt )
         {
@@ -151,11 +152,11 @@ class ElectreService
             {
                 $x[$index] += pow($alt['nilai'][$index], 2);                
             }   
-            $x[$index] = sqrt($x[$index]);
+            $x[$index] = round(sqrt($x[$index]), 5);
 
             foreach($matrix_X as &$alt)
             {
-                $alt['nilai'][$index] = ($alt['nilai'][$index]/$x[$index]);
+                $alt['nilai'][$index] = round($alt['nilai'][$index]/$x[$index], 5);
             }              
         }
         
@@ -163,12 +164,12 @@ class ElectreService
     }
 
     private function matrixV($matrix_R, $bobot)
-    {        
+    {                
         foreach($bobot as $index => $b)
         {
             foreach($matrix_R as $idx_matrix => &$matrix)
             {
-                $matrix['nilai'][$index] = $matrix['nilai'][$index]*$b['nilai'];
+                $matrix['nilai'][$index] = round($matrix['nilai'][$index]*$b['nilai'], 5);
             }    
         }
                 
@@ -255,6 +256,7 @@ class ElectreService
                                                             
                     if(max($array_atas) == 0 && max($array_bawah) == 0)
                     {
+                        // $array['nilaiDD'] = 1;
                         $array['nilaiDD'] = 0;
                     }else{
                         $array['nilaiDD'] = round(max($array_atas) / max($array_bawah), 4);
@@ -300,18 +302,19 @@ class ElectreService
                 if(is_array($cd_dd))
                 {                    
                         
-                    $cd_dd['nilaiDD'];
+                    // echo " | CC: ".$cd_dd['nilaiCD'].' : '.$thresholdCD.' = ';
 
                     if($cd_dd['nilaiCD'] >= $thresholdCD){ 
                             $cd_dd['d_cd'] = 1; 
                     }else{ 
-                        $cd_dd['d_cd'] = 0; 
+                            $cd_dd['d_cd'] = 0;     
                     }
-
+                    // echo $cd_dd['d_cd'];
+                  
                     if($cd_dd['nilaiDD'] >= $thresholdDD){ 
-                        $cd_dd['d_dd'] = 0; 
-                    }else{ 
                         $cd_dd['d_dd'] = 1; 
+                    }else{ 
+                        $cd_dd['d_dd'] = 0; 
                     }
                     unset($cd_dd['cd']);
                     unset($cd_dd['dd']);
@@ -320,6 +323,9 @@ class ElectreService
                 }                
             }            
         }        
+
+        // print_r($CD_DD);
+
         $result['dominan_CDDD'] = $CD_DD;
         $result['thresholdCD'] = $thresholdCD;
         $result['thresholdDD'] = $thresholdDD;
