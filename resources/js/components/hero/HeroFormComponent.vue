@@ -47,7 +47,7 @@
                                             <label class="custom-file-label" for="customFile">{{ hero.photo_name }}</label>
                                         </div>
                                         <small v-if="idHero" style="font-size: 70%">Pilih untuk mengganti gambar sebelumnya</small>
-                                        <div class="invalid-feedback" v-if="errors.photo !== null " style="display:unset">Gambar belum dipilih.</div>
+                                        <!-- <div class="invalid-feedback" v-if="errors.photo !== null " style="display:unset">Gambar belum dipilih.</div> -->
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -58,7 +58,18 @@
                                 </div>
                             </div>
                             <hr>
+
                             <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group" v-for="k in kriteria" :key="k._id" >
+                                        <label :for="k._id">{{ k.kriteria_name }}</label>
+                                        <vue-range ref="slider" v-model="hero[k.kriteria_field]"  tooltip="hover" :id="k._id" ></vue-range>
+                                        <div class="invalid-feedback" v-if="kError[k.kriteria_field]" style="display:unset">Nilai harus lebih dari '0'</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="durability_hero">Durability</label>
@@ -87,7 +98,7 @@
                                         <div class="invalid-feedback" v-if="errors.difficulty !== null " style="display:unset">Nilai harus lebih dari '0'</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <hr>
                             <div class="row">
                                 <div class="col-4">
@@ -226,7 +237,7 @@ export default {
         //     hero: 'hero',            
         // }),
         ...mapGetters({
-            hero: 'hero/getHero'
+            // hero: 'hero/getHero'
         }),
         errors() {
             return {
@@ -234,24 +245,12 @@ export default {
                 alias: this.validation.firstError('hero.alias'),
                 role: this.validation.firstError('hero.role'),
                 speciality: this.validation.firstError('hero.speciality'),
-                durability: this.validation.firstError('hero.durability'),
-                offense: this.validation.firstError('hero.offense'),
-                skill_effect: this.validation.firstError('hero.skill_effect'),
-                difficulty: this.validation.firstError('hero.difficulty'),
-                move_speed: this.validation.firstError('hero.attributes.move_speed'),
-                att_speed: this.validation.firstError('hero.attributes.att_speed'),
-                base_att_crit_rate: this.validation.firstError('hero.attributes.base_att_crit_rate'),
-                ability_crit_rate: this.validation.firstError('hero.attributes.ability_crit_rate'),
-                physical_att: this.validation.firstError('hero.attributes.physical_att'),
-                physical_deff: this.validation.firstError('hero.attributes.physical_deff'),
-                hp: this.validation.firstError('hero.attributes.hp'),
-                hp_regen: this.validation.firstError('hero.attributes.hp_regen'),
-                magic_power: this.validation.firstError('hero.attributes.magic_power'),
-                magic_deff: this.validation.firstError('hero.attributes.magic_deff'),
-                mana: this.validation.firstError('hero.attributes.mana'),
-                mana_regen: this.validation.firstError('hero.attributes.mana_regen'),
-                photo: this.validation.firstError('hero.photo'),
+                
             }
+        },
+        kError()
+        {
+            return this.kriteriaError
         }
     },   
     validators: {
@@ -267,57 +266,13 @@ export default {
         'hero.speciality': function (value) {
             return Validator.value(value).required()
         },
-        'hero.durability': function (value) {
-            return Validator.value(value).required().greaterThan(0)
-        },
-        'hero.offense': function (value) {
-            return Validator.value(value).required().greaterThan(0)
-        },
-        'hero.skill_effect': function (value) {
-            return Validator.value(value).required().greaterThan(0)
-        },
-        'hero.difficulty': function (value) {
-            return Validator.value(value).required().greaterThan(0)
-        },
-        'hero.attributes.move_speed': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.att_speed': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.base_att_crit_rate': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.ability_crit_rate': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.physical_att': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.physical_deff': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.hp': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.hp_regen': function (value) {
-            return Validator.value(value).required()
-        },        
-        'hero.attributes.magic_power': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.magic_deff': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.mana': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.attributes.mana_regen': function (value) {
-            return Validator.value(value).required()
-        },
-        'hero.photo': function (value) {
-            return Validator.value(value).required()
-        },
+        // 'hero.photo': function (value) {
+        //     return Validator.value(value).required()
+        // },
+        // 'hero.durability': function (value) {
+        //     return Validator.value(value).required().greaterThan(0)
+        // },        
+        
     },
     created(){
         this.init();
@@ -335,6 +290,16 @@ export default {
                 })
                                                 
             })
+            this.$store.dispatch('electre/getAllKriteria').then((response)=>{                    
+                this.kriteria = response
+                this.kriteria.forEach(function(k){
+                    parent.hero[k.kriteria_field] = 0
+                    parent.kriteriaError[k.kriteria_field] = false
+                })                
+                console.log(this.kriteria)
+                console.log(parent.kriteriaError)
+            })
+
             this.$store.dispatch('speciality/getAllSpeciality').then((response)=>{                
                 
                 response.forEach(function(res, index){
@@ -345,7 +310,9 @@ export default {
             if(this.$route.params.idHero)
             {
                 let data = {idHero: this.$route.params.idHero}
-                this.$store.dispatch('hero/setHero', data)
+                this.$store.dispatch('hero/setHero', data).then((response) => {
+                    parent.hero = response
+                })
                 this.idHero = this.$route.params.idHero
 
             }
@@ -375,18 +342,45 @@ export default {
         validate()
         {            
             let parent = this
-            this.$validate().then(function (success) {                
-                if (success) {
-                    parent.submitData()
-                }          
-            });
+            console.log(this.hero)
+            this.checkKriteria()    
+            var checkKriteria = this.checkKriteria(true)                        
+            // console.log(this.kError)
+            if(!checkKriteria){
+                this.$validate().then(function (success) {                
+                    if (success) {
+                        parent.submitData()
+                    }          
+                });
+            }
+        },
+        checkKriteria(retu = false){
+            let parent = this
+            var result = false
+            this.kriteria.forEach(function(k){
+                
+                if(parent.hero[k.kriteria_field] <= 0 ) 
+                {
+                    parent.kriteriaError[k.kriteria_field] = true
+                    // console.log(k.kriteria_field+' error')
+                    result = true
+                }else{
+                    parent.kriteriaError[k.kriteria_field] = false
+                }
+
+            })
+            if(retu)
+            {
+                return result
+            }            
         },
         submitData()
         {
             parent = this            
+            
             let data = new FormData()
             var hero = this.hero
-
+            console.log(hero)
             if(this.$route.params.idHero)
             {
                 data.append('_id', this.$route.params.idHero)
@@ -398,24 +392,23 @@ export default {
             data.append('photo', hero.photo)
 
             hero.role.forEach((role) => data.append("role[]", role))
-            hero.speciality.forEach((speciality) => data.append("speciality[]", speciality))            
+            hero.speciality.forEach((speciality) => data.append("speciality[]", speciality))    
+            this.kriteria.forEach(function(k){
+                data.append(k.kriteria_field, hero[k.kriteria_field])
+            })                                
             
-            data.append('durability', hero.durability)
-            data.append('offense', hero.offense)
-            data.append('skill_effect', hero.skill_effect)
-            data.append('difficulty', hero.difficulty)
-            data.append('attributes[move_speed]', hero.attributes.move_speed)
-            data.append('attributes[att_speed]', hero.attributes.att_speed)
-            data.append('attributes[ability_crit_rate]', hero.attributes.ability_crit_rate)
-            data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate)
-            data.append('attributes[physical_att]', hero.attributes.physical_att)
-            data.append('attributes[physical_deff]', hero.attributes.physical_deff)
-            data.append('attributes[hp]', hero.attributes.hp)
-            data.append('attributes[hp_regen]', hero.attributes.hp_regen)
-            data.append('attributes[magic_power]', hero.attributes.magic_power)
-            data.append('attributes[magic_deff]', hero.attributes.magic_deff)
-            data.append('attributes[mana]', hero.attributes.mana)
-            data.append('attributes[mana_regen]', hero.attributes.mana_regen)
+            if(hero.attributes.move_speed !== undefined ) data.append('attributes[move_speed]', hero.attributes.move_speed)
+            if(hero.attributes.att_speed !== undefined ) data.append('attributes[att_speed]', hero.attributes.att_speed)
+            if(hero.attributes.ability_crit_rate !== undefined ) data.append('attributes[ability_crit_rate]', hero.attributes.ability_crit_rate)
+            if(hero.attributes.base_att_crit_rate !== undefined ) data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate)
+            if(hero.attributes.physical_att !== undefined ) data.append('attributes[physical_att]', hero.attributes.physical_att)
+            if(hero.attributes.physical_deff !== undefined ) data.append('attributes[physical_deff]', hero.attributes.physical_deff)
+            if(hero.attributes.hp !== undefined ) data.append('attributes[hp]', hero.attributes.hp)
+            if(hero.attributes.hp_regen !== undefined ) data.append('attributes[hp_regen]', hero.attributes.hp_regen)
+            if(hero.attributes.magic_power !== undefined ) data.append('attributes[magic_power]', hero.attributes.magic_power)
+            if(hero.attributes.magic_deff !== undefined ) data.append('attributes[magic_deff]', hero.attributes.magic_deff)
+            if(hero.attributes.mana !== undefined ) data.append('attributes[mana]', hero.attributes.mana)
+            if(hero.attributes.mana_regen !== undefined ) data.append('attributes[mana_regen]', hero.attributes.mana_regen)
             
             console.log(data);
 
@@ -425,7 +418,7 @@ export default {
                     if(response)
                     {
                         alert('Hero telah diupdate')
-                        parent.$router.push('/admin/hero')
+                        // parent.$router.push('/admin/hero')
                     }
                 })
 
@@ -436,7 +429,7 @@ export default {
                     if(response)
                     {
                         alert('Hero baru telah ditambahkan')
-                        parent.$router.push('/admin/hero')
+                        // parent.$router.push('/admin/hero')
                     }
                                                                     
                 })
@@ -452,7 +445,14 @@ export default {
             slider: 90,
             roleOption: [],
             specialityOption: [],
-            idHero : null
+            kriteria: [],
+            kriteriaError:{},
+            idHero : null,
+            hero:{
+                role: [],
+                speciality:[],
+                attributes:{}
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ class DateHelper {
 
 
 	public static function mongoToDate($mongo_date, $format = 'Y-m-d', $time_zone = null){
-		if(!$time_zone) $time_zone = new \DateTimeZone(date_default_timezone_get());
+		if(!$time_zone) $time_zone = new \DateTimeZone('Asia/Jakarta');
 		return $mongo_date->toDateTime()->setTimeZone($time_zone)->format($format);
 	}
 

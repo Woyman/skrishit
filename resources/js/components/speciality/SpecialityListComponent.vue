@@ -120,6 +120,7 @@ export default {
                     {   
                         this.speciality_name = ''
                         this.toogleModal()
+                        alert('Speciality '+data.speciality_name+' telah ditambahkan')
                         this.init()
                     }
                     
@@ -144,6 +145,7 @@ export default {
                 let data = {'idSpeciality' : idSpeciality}
                 this.$store.dispatch('speciality/deleteSpeciality', data).then((response)=>{
                        this.init()                
+                       alert('Speciality telah dihapus')
                 })
             }
         },
@@ -187,6 +189,7 @@ export default {
                     if(response)
                     {                           
                         this.toogleModalEdit()
+                        alert('Speciality telah diubah')
                         this.init()
                     }
                     

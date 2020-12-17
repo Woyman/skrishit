@@ -134,6 +134,7 @@ export default {
                         this.kriteria_name = ''
                         this.kriteria_field = ''
                         this.toogleModal()
+                        alert('Kriteria '+data.kriteria_name+' telah ditambahkan')
                         this.init()
                     }
                     
@@ -173,6 +174,7 @@ export default {
             {
                 let data = {'idKriteria' : idKriteria}
                 this.$store.dispatch('kriteria/deleteKriteria', data).then((response)=>{
+                       alert('Kriteria telah dihapus')
                        this.init()                
                 })
             }
@@ -233,6 +235,7 @@ export default {
                     if(response)
                     {                           
                         this.toogleModalEdit()
+                        alert('Kriteria telah diubah')
                         this.init()
                     }
                     

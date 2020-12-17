@@ -2833,6 +2833,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import RoleForm from './FormRoleComponent'
 
 
@@ -2856,33 +2867,18 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
     pageTitle: function pageTitle() {
       return this.$route.meta.title;
     }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])({
-    hero: 'hero/getHero'
+  }, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])({// hero: 'hero/getHero'
   })), {}, {
     errors: function errors() {
       return {
         name: this.validation.firstError('hero.name'),
         alias: this.validation.firstError('hero.alias'),
         role: this.validation.firstError('hero.role'),
-        speciality: this.validation.firstError('hero.speciality'),
-        durability: this.validation.firstError('hero.durability'),
-        offense: this.validation.firstError('hero.offense'),
-        skill_effect: this.validation.firstError('hero.skill_effect'),
-        difficulty: this.validation.firstError('hero.difficulty'),
-        move_speed: this.validation.firstError('hero.attributes.move_speed'),
-        att_speed: this.validation.firstError('hero.attributes.att_speed'),
-        base_att_crit_rate: this.validation.firstError('hero.attributes.base_att_crit_rate'),
-        ability_crit_rate: this.validation.firstError('hero.attributes.ability_crit_rate'),
-        physical_att: this.validation.firstError('hero.attributes.physical_att'),
-        physical_deff: this.validation.firstError('hero.attributes.physical_deff'),
-        hp: this.validation.firstError('hero.attributes.hp'),
-        hp_regen: this.validation.firstError('hero.attributes.hp_regen'),
-        magic_power: this.validation.firstError('hero.attributes.magic_power'),
-        magic_deff: this.validation.firstError('hero.attributes.magic_deff'),
-        mana: this.validation.firstError('hero.attributes.mana'),
-        mana_regen: this.validation.firstError('hero.attributes.mana_regen'),
-        photo: this.validation.firstError('hero.photo')
+        speciality: this.validation.firstError('hero.speciality')
       };
+    },
+    kError: function kError() {
+      return this.kriteriaError;
     }
   }),
   validators: {
@@ -2897,70 +2893,38 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
     },
     'hero.speciality': function heroSpeciality(value) {
       return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.durability': function heroDurability(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required().greaterThan(0);
-    },
-    'hero.offense': function heroOffense(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required().greaterThan(0);
-    },
-    'hero.skill_effect': function heroSkill_effect(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required().greaterThan(0);
-    },
-    'hero.difficulty': function heroDifficulty(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required().greaterThan(0);
-    },
-    'hero.attributes.move_speed': function heroAttributesMove_speed(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.att_speed': function heroAttributesAtt_speed(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.base_att_crit_rate': function heroAttributesBase_att_crit_rate(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.ability_crit_rate': function heroAttributesAbility_crit_rate(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.physical_att': function heroAttributesPhysical_att(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.physical_deff': function heroAttributesPhysical_deff(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.hp': function heroAttributesHp(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.hp_regen': function heroAttributesHp_regen(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.magic_power': function heroAttributesMagic_power(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.magic_deff': function heroAttributesMagic_deff(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.mana': function heroAttributesMana(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.attributes.mana_regen': function heroAttributesMana_regen(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    },
-    'hero.photo': function heroPhoto(value) {
-      return simple_vue_validator__WEBPACK_IMPORTED_MODULE_3__["Validator"].value(value).required();
-    }
+    } // 'hero.photo': function (value) {
+    //     return Validator.value(value).required()
+    // },
+    // 'hero.durability': function (value) {
+    //     return Validator.value(value).required().greaterThan(0)
+    // },        
+
   },
   created: function created() {
     this.init();
   },
   methods: {
     init: function init() {
+      var _this = this;
+
       parent = this; // console.log(this.hero)
 
       this.$store.dispatch('role/getAllRole').then(function (response) {
         response.forEach(function (res, index) {
           parent.roleOption.push(res.role_name);
         });
+      });
+      this.$store.dispatch('electre/getAllKriteria').then(function (response) {
+        _this.kriteria = response;
+
+        _this.kriteria.forEach(function (k) {
+          parent.hero[k.kriteria_field] = 0;
+          parent.kriteriaError[k.kriteria_field] = false;
+        });
+
+        console.log(_this.kriteria);
+        console.log(parent.kriteriaError);
       });
       this.$store.dispatch('speciality/getAllSpeciality').then(function (response) {
         response.forEach(function (res, index) {
@@ -2972,7 +2936,9 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
         var data = {
           idHero: this.$route.params.idHero
         };
-        this.$store.dispatch('hero/setHero', data);
+        this.$store.dispatch('hero/setHero', data).then(function (response) {
+          parent.hero = response;
+        });
         this.idHero = this.$route.params.idHero;
       } // console.log(this.hero)
 
@@ -2997,16 +2963,41 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
     },
     validate: function validate() {
       var parent = this;
-      this.$validate().then(function (success) {
-        if (success) {
-          parent.submitData();
+      console.log(this.hero);
+      this.checkKriteria();
+      var checkKriteria = this.checkKriteria(true); // console.log(this.kError)
+
+      if (!checkKriteria) {
+        this.$validate().then(function (success) {
+          if (success) {
+            parent.submitData();
+          }
+        });
+      }
+    },
+    checkKriteria: function checkKriteria() {
+      var retu = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var parent = this;
+      var result = false;
+      this.kriteria.forEach(function (k) {
+        if (parent.hero[k.kriteria_field] <= 0) {
+          parent.kriteriaError[k.kriteria_field] = true; // console.log(k.kriteria_field+' error')
+
+          result = true;
+        } else {
+          parent.kriteriaError[k.kriteria_field] = false;
         }
       });
+
+      if (retu) {
+        return result;
+      }
     },
     submitData: function submitData() {
       parent = this;
       var data = new FormData();
       var hero = this.hero;
+      console.log(hero);
 
       if (this.$route.params.idHero) {
         data.append('_id', this.$route.params.idHero);
@@ -3022,36 +3013,33 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       hero.speciality.forEach(function (speciality) {
         return data.append("speciality[]", speciality);
       });
-      data.append('durability', hero.durability);
-      data.append('offense', hero.offense);
-      data.append('skill_effect', hero.skill_effect);
-      data.append('difficulty', hero.difficulty);
-      data.append('attributes[move_speed]', hero.attributes.move_speed);
-      data.append('attributes[att_speed]', hero.attributes.att_speed);
-      data.append('attributes[ability_crit_rate]', hero.attributes.ability_crit_rate);
-      data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate);
-      data.append('attributes[physical_att]', hero.attributes.physical_att);
-      data.append('attributes[physical_deff]', hero.attributes.physical_deff);
-      data.append('attributes[hp]', hero.attributes.hp);
-      data.append('attributes[hp_regen]', hero.attributes.hp_regen);
-      data.append('attributes[magic_power]', hero.attributes.magic_power);
-      data.append('attributes[magic_deff]', hero.attributes.magic_deff);
-      data.append('attributes[mana]', hero.attributes.mana);
-      data.append('attributes[mana_regen]', hero.attributes.mana_regen);
+      this.kriteria.forEach(function (k) {
+        data.append(k.kriteria_field, hero[k.kriteria_field]);
+      });
+      if (hero.attributes.move_speed !== undefined) data.append('attributes[move_speed]', hero.attributes.move_speed);
+      if (hero.attributes.att_speed !== undefined) data.append('attributes[att_speed]', hero.attributes.att_speed);
+      if (hero.attributes.ability_crit_rate !== undefined) data.append('attributes[ability_crit_rate]', hero.attributes.ability_crit_rate);
+      if (hero.attributes.base_att_crit_rate !== undefined) data.append('attributes[base_att_crit_rate]', hero.attributes.base_att_crit_rate);
+      if (hero.attributes.physical_att !== undefined) data.append('attributes[physical_att]', hero.attributes.physical_att);
+      if (hero.attributes.physical_deff !== undefined) data.append('attributes[physical_deff]', hero.attributes.physical_deff);
+      if (hero.attributes.hp !== undefined) data.append('attributes[hp]', hero.attributes.hp);
+      if (hero.attributes.hp_regen !== undefined) data.append('attributes[hp_regen]', hero.attributes.hp_regen);
+      if (hero.attributes.magic_power !== undefined) data.append('attributes[magic_power]', hero.attributes.magic_power);
+      if (hero.attributes.magic_deff !== undefined) data.append('attributes[magic_deff]', hero.attributes.magic_deff);
+      if (hero.attributes.mana !== undefined) data.append('attributes[mana]', hero.attributes.mana);
+      if (hero.attributes.mana_regen !== undefined) data.append('attributes[mana_regen]', hero.attributes.mana_regen);
       console.log(data);
 
       if (this.$route.params.idHero) {
         this.$store.dispatch('hero/updateHero', data).then(function (response) {
           if (response) {
-            alert('Hero telah diupdate');
-            parent.$router.push('/admin/hero');
+            alert('Hero telah diupdate'); // parent.$router.push('/admin/hero')
           }
         });
       } else {
         this.$store.dispatch('hero/insertHero', data).then(function (response) {
           if (response) {
-            alert('Hero baru telah ditambahkan');
-            parent.$router.push('/admin/hero');
+            alert('Hero baru telah ditambahkan'); // parent.$router.push('/admin/hero')
           }
         });
       }
@@ -3064,7 +3052,14 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       slider: 90,
       roleOption: [],
       specialityOption: [],
-      idHero: null
+      kriteria: [],
+      kriteriaError: {},
+      idHero: null,
+      hero: {
+        role: [],
+        speciality: [],
+        attributes: {}
+      }
     };
   }
 });
@@ -3699,6 +3694,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
 
             _this2.toogleModal();
 
+            alert('Kriteria ' + data.kriteria_name + ' telah ditambahkan');
+
             _this2.init();
           }
         });
@@ -3732,6 +3729,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
           'idKriteria': idKriteria
         };
         this.$store.dispatch('kriteria/deleteKriteria', data).then(function (response) {
+          alert('Kriteria telah dihapus');
+
           _this3.init();
         });
       }
@@ -3784,6 +3783,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
         this.$store.dispatch('kriteria/updateKriteria', data).then(function (response) {
           if (response) {
             _this5.toogleModalEdit();
+
+            alert('Kriteria telah diubah');
 
             _this5.init();
           }
@@ -4045,6 +4046,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
 
             _this2.toogleModal();
 
+            alert('Role ' + data.role_name + ' ditambakan');
+
             _this2.init();
           }
         });
@@ -4069,6 +4072,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
         };
         this.$store.dispatch('role/deleteRole', data).then(function (response) {
           _this3.init();
+
+          alert('role telah dihapuskan');
         });
       }
     },
@@ -4110,6 +4115,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
         this.$store.dispatch('role/updateRole', data).then(function (response) {
           if (response) {
             _this5.toogleModalEdit();
+
+            alert('role telah diubah');
 
             _this5.init();
           }
@@ -4266,6 +4273,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
 
             _this2.toogleModal();
 
+            alert('Speciality ' + data.speciality_name + ' telah ditambahkan');
+
             _this2.init();
           }
         });
@@ -4290,6 +4299,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
         };
         this.$store.dispatch('speciality/deleteSpeciality', data).then(function (response) {
           _this3.init();
+
+          alert('Speciality telah dihapus');
         });
       }
     },
@@ -4331,6 +4342,8 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_2__["create
         this.$store.dispatch('speciality/updateSpeciality', data).then(function (response) {
           if (response) {
             _this5.toogleModalEdit();
+
+            alert('Speciality telah diubah');
 
             _this5.init();
           }
@@ -9857,17 +9870,6 @@ var render = function() {
                       ? _c("small", { staticStyle: { "font-size": "70%" } }, [
                           _vm._v("Pilih untuk mengganti gambar sebelumnya")
                         ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.errors.photo !== null
-                      ? _c(
-                          "div",
-                          {
-                            staticClass: "invalid-feedback",
-                            staticStyle: { display: "unset" }
-                          },
-                          [_vm._v("Gambar belum dipilih.")]
-                        )
                       : _vm._e()
                   ])
                 ]),
@@ -9896,159 +9898,47 @@ var render = function() {
               _c("hr"),
               _vm._v(" "),
               _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-12" }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("label", { attrs: { for: "durability_hero" } }, [
-                        _vm._v("Durability")
-                      ]),
-                      _vm._v(" "),
-                      _c("vue-range", {
-                        ref: "slider",
-                        class: [
-                          { "form-control invalid": _vm.errors.durability }
-                        ],
-                        attrs: { tooltip: "hover", id: "durability_hero" },
-                        model: {
-                          value: _vm.hero.durability,
-                          callback: function($$v) {
-                            _vm.$set(_vm.hero, "durability", $$v)
-                          },
-                          expression: "hero.durability"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm.errors.durability !== null
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "invalid-feedback",
-                              staticStyle: { display: "unset" }
+                _c(
+                  "div",
+                  { staticClass: "col-12" },
+                  _vm._l(_vm.kriteria, function(k) {
+                    return _c(
+                      "div",
+                      { key: k._id, staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: k._id } }, [
+                          _vm._v(_vm._s(k.kriteria_name))
+                        ]),
+                        _vm._v(" "),
+                        _c("vue-range", {
+                          ref: "slider",
+                          refInFor: true,
+                          attrs: { tooltip: "hover", id: k._id },
+                          model: {
+                            value: _vm.hero[k.kriteria_field],
+                            callback: function($$v) {
+                              _vm.$set(_vm.hero, k.kriteria_field, $$v)
                             },
-                            [_vm._v("Nilai harus lebih dari '0'")]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12" }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("label", { attrs: { for: "offense_hero" } }, [
-                        _vm._v("Offense")
-                      ]),
-                      _vm._v(" "),
-                      _c("vue-range", {
-                        ref: "slider",
-                        class: [{ "form-control invalid": _vm.errors.offense }],
-                        attrs: { tooltip: "hover", id: "offense_hero" },
-                        model: {
-                          value: _vm.hero.offense,
-                          callback: function($$v) {
-                            _vm.$set(_vm.hero, "offense", $$v)
-                          },
-                          expression: "hero.offense"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm.errors.offense !== null
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "invalid-feedback",
-                              staticStyle: { display: "unset" }
-                            },
-                            [_vm._v("Nilai harus lebih dari '0'")]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12" }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("label", { attrs: { for: "skill_eff_hero" } }, [
-                        _vm._v("Skill Effect")
-                      ]),
-                      _vm._v(" "),
-                      _c("vue-range", {
-                        ref: "slider",
-                        class: [
-                          { "form-control invalid": _vm.errors.skill_effect }
-                        ],
-                        attrs: { tooltip: "hover", id: "skill_eff_hero" },
-                        model: {
-                          value: _vm.hero.skill_effect,
-                          callback: function($$v) {
-                            _vm.$set(_vm.hero, "skill_effect", $$v)
-                          },
-                          expression: "hero.skill_effect"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm.errors.skill_effect !== null
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "invalid-feedback",
-                              staticStyle: { display: "unset" }
-                            },
-                            [_vm._v("Nilai harus lebih dari '0'")]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-12" }, [
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("label", { attrs: { for: "diff_hero" } }, [
-                        _vm._v("Difficulty")
-                      ]),
-                      _vm._v(" "),
-                      _c("vue-range", {
-                        ref: "slider",
-                        class: [
-                          { "form-control invalid": _vm.errors.difficulty }
-                        ],
-                        attrs: { tooltip: "hover", id: "diff_hero" },
-                        model: {
-                          value: _vm.hero.difficulty,
-                          callback: function($$v) {
-                            _vm.$set(_vm.hero, "difficulty", $$v)
-                          },
-                          expression: "hero.difficulty"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm.errors.difficulty !== null
-                        ? _c(
-                            "div",
-                            {
-                              staticClass: "invalid-feedback",
-                              staticStyle: { display: "unset" }
-                            },
-                            [_vm._v("Nilai harus lebih dari '0'")]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                ])
+                            expression: "hero[k.kriteria_field]"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.kError[k.kriteria_field]
+                          ? _c(
+                              "div",
+                              {
+                                staticClass: "invalid-feedback",
+                                staticStyle: { display: "unset" }
+                              },
+                              [_vm._v("Nilai harus lebih dari '0'")]
+                            )
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  }),
+                  0
+                )
               ]),
               _vm._v(" "),
               _c("hr"),
@@ -32782,9 +32672,7 @@ var setHero = /*#__PURE__*/function () {
 
           case 3:
             response = _context3.sent;
-            // console.log(response)  
-            // return response.data.data  
-            context.commit('SET_HERO', response.data.data);
+            return _context3.abrupt("return", response.data.data);
 
           case 5:
           case "end":
@@ -32909,10 +32797,11 @@ var getDefaultState = function getDefaultState() {
       photo: null,
       role: [],
       speciality: [],
-      durability: 0,
-      offense: 0,
-      skill_effect: 0,
-      difficulty: 0,
+      kriteria: {},
+      // durability: 0,
+      // offense: 0,
+      // skill_effect: 0,
+      // difficulty: 0,
       attributes: {
         move_speed: null,
         att_speed: null,

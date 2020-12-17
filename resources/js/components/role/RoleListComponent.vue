@@ -120,6 +120,7 @@ export default {
                     {   
                         this.role_name = ''
                         this.toogleModal()
+                        alert('Role '+data.role_name+' ditambakan')
                         this.init()
                     }
                     
@@ -142,8 +143,9 @@ export default {
             if(confirm("Anda yakin ingin menghapus Role ini? "))
             {
                 let data = {'idRole' : idRole}
-                this.$store.dispatch('role/deleteRole', data).then((response)=>{
+                this.$store.dispatch('role/deleteRole', data).then((response)=>{                    
                        this.init()                
+                       alert('role telah dihapuskan')
                 })
             }
         },
@@ -187,6 +189,7 @@ export default {
                     if(response)
                     {                           
                         this.toogleModalEdit()
+                        alert('role telah diubah')
                         this.init()
                     }
                     

@@ -25,8 +25,8 @@ const setHero = async (context, payload) => {
     let url = '/api/hero/'+payload.idHero                
     let response = await Axios.get(url)
     // console.log(response)  
-    // return response.data.data  
-    context.commit('SET_HERO', response.data.data)     
+    return response.data.data  
+    // context.commit('SET_HERO', response.data.data)     
 }
 
 const insertHero = async (context, payload) => {
