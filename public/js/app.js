@@ -3033,13 +3033,15 @@ var _createHelpers = Object(vuex_map_fields__WEBPACK_IMPORTED_MODULE_5__["create
       if (this.$route.params.idHero) {
         this.$store.dispatch('hero/updateHero', data).then(function (response) {
           if (response) {
-            alert('Hero telah diupdate'); // parent.$router.push('/admin/hero')
+            alert('Hero telah diupdate');
+            parent.$router.push('/admin/hero');
           }
         });
       } else {
         this.$store.dispatch('hero/insertHero', data).then(function (response) {
           if (response) {
-            alert('Hero baru telah ditambahkan'); // parent.$router.push('/admin/hero')
+            alert('Hero baru telah ditambahkan');
+            parent.$router.push('/admin/hero');
           }
         });
       }
